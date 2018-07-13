@@ -1,5 +1,11 @@
 "use strict"
 
+const React = require('react')
+const { renderToString  } = require('react-dom/server')
+
+const htmlTemplate = require('../../render/html')
+const Catalog = require('../../render/Catalog')
+
 function getCatalog(db) {
   return function(req, res, next) {
     const catalogId = req.params && req.params.catalog;
@@ -7,11 +13,24 @@ function getCatalog(db) {
       if (err) {
         res.status(400).send();
       } else {
-        res.status(200).json({data})
+        req.data = data;
+        next()
       }
     })
   }
 }
 
-module.exports = [getCatalog]
+function render() {
+  return function(req, res) {
+    if (req.data) {
+      const reactDom = renderToString(<Catalog />)
+      res.writeHead( 200, { "Content-Type": "text/html" } );
+      res.end( htmlTemplate( {reactDom} ) );
+    } else {
+      // render 404 page
+    }
+  }
+}
+
+module.exports = [getCatalog, render]
  
