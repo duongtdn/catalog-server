@@ -3,7 +3,7 @@
 require('dotenv').config()
 
 const express = require('express')
-const api = require('../api/main.js')
+const api = require('../dist/api')
 const cors = require('cors')
 
 /* create api */
