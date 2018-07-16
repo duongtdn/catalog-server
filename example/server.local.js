@@ -24,6 +24,7 @@ db.start().add({catalogdb}).init(() => {
   const PORT = process.env.PORT_LOCAL_TEST || 3100;   
   const app = require('./app.local');
   const httpServer = require('http').createServer(app);
-  httpServer.listen(PORT)
-  console.log(`\n# CATALOG-SERVICES is running at http://localhost:${PORT}\n`);
+  httpServer.listen(PORT, function() {
+    console.log(`\n# CATALOG-SERVICES is running at http://localhost:${PORT}\n`);
+  })  
 });
