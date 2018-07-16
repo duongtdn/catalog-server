@@ -2,6 +2,8 @@
 
 require('dotenv').config()
 
+const path = require('path')
+
 /* start db and server */
 const db = require('database-test-helper')
 const catalogdb = require('catalogdb-test-helper')
@@ -23,8 +25,14 @@ const catalogdb = require('catalogdb-test-helper')
 db.start().add({catalogdb}).init(() => {
   const PORT = process.env.PORT_LOCAL_TEST || 3100;   
   const app = require('./app.local');
+
+  // server client script
+  app.get('/catalog/script/bundle.js', (req, res) => {
+    res.sendFile(path.resolve(`${__dirname}/../dist/bundle.js`))
+  })
+
   const httpServer = require('http').createServer(app);
   httpServer.listen(PORT, function() {
-    console.log(`\n# CATALOG-SERVICES is running at http://localhost:${PORT}\n`);
+    console.log(`\n# CATALOG WEB SERVER is running at http://localhost:${PORT}\n`);
   })  
 });
