@@ -20,9 +20,9 @@ function getCatalog(db) {
   }
 }
 
-const title = process.env.PAGE_TITLE || 'Page Title';
-const script = process.env.PAGE_SCRIPT || 'script/index.js'
-const style = process.env.PAGE_STYLE || 'style/style.css'
+const title = process.env.CATALOG_PAGE_TITLE || 'Page Title';
+const script = process.env.CATALOG_PAGE_SCRIPT || 'script/index.js'
+const style = process.env.CATALOG_PAGE_STYLE || 'style/style.css'
 
 function render() {
   return function(req, res) {
