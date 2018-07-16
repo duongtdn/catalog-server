@@ -1,24 +1,25 @@
 {
-  "name": "catalog-server",
+  "name": "sglearn-web-server",
   "version": "1.0.0",
-  "description": "sglearn: catalog backend services",
+  "description": "sglearn web server",
   "main": "index.js",
   "scripts": {
     "build:api": "webpack --config webpack.server.config.js",
-    "build": "rm -rf dist/ && npm run build:api",
+    "build:client": "webpack --config webpack.client.config.js",
+    "build": "rm -rf dist/ && npm run build:api && npm run build:client",
     "local": "npm run build && node example/server.local.js",
     "example": "npm run local"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duongtdn/catalog-server.git"
+    "url": "git+https://github.com/duongtdn/sglearn-web-server.git"
   },
   "author": "duongtdn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/duongtdn/catalog-server/issues"
+    "url": "https://github.com/duongtdn/sglearn-web-server/issues"
   },
-  "homepage": "https://github.com/duongtdn/catalog-server#readme",
+  "homepage": "https://github.com/duongtdn/sglearn-web-server#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
@@ -27,6 +28,10 @@
     "body-parser": "^1.18.2",
     "catalogdb-dynamodb-driver": "^1.0.0",
     "catalogdb-test-helper": "^1.0.0",
+    "coursedb-dynamodb-driver": "^1.0.0",
+    "coursedb-test-helper": "^1.0.0",
+    "enrolldb-dynamodb-driver": "^1.0.0",
+    "enrolldb-test-helper": "^1.0.0",
     "cors": "^2.8.4",
     "database-abstractor": "^1.0.0",
     "database-test-helper": "^1.0.0",
@@ -39,6 +44,7 @@
   "dependencies": {
     "@stormgle/jtoken-util": "^1.0.0",
     "express-api-binder": "^1.1.0",
+    "simple-json-xhr": "^1.2.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1"
   }
