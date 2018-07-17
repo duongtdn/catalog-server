@@ -4,7 +4,7 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    client: ['./client/index.js']
+    catalog: ['./client/catalog.js']
   },
   module: {
     rules: [
@@ -18,6 +18,6 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].js",
   }
 }

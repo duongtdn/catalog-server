@@ -1,7 +1,7 @@
 "use strict"
 
 const render = require('../../../lib/render')
-const Catalog = require('../../../render/Catalog')
+const Catalog = require('../../../components/Catalog')
 
 function getCatalog(db) {
   return function(req, res, next) {
@@ -17,5 +17,5 @@ function getCatalog(db) {
   }
 }
 
-module.exports = [getCatalog, render({Component: Catalog, script: 'script/index.js'})]
+module.exports = [getCatalog, render({Component: Catalog, script: 'script/bundle.js'})]
  

@@ -2,6 +2,6 @@
 
 import React from 'react'
 import { hydrate } from "react-dom"
-import Catalog from "../render/Catalog"
+import Catalog from "../components/Catalog"
 
 hydrate(<Catalog data = {window.DATA} />, document.getElementById("root"));

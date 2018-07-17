@@ -28,7 +28,7 @@ db.start().add({catalogdb}).init(() => {
 
   // server client script
   app.get('/catalog/script/bundle.js', (req, res) => {
-    res.sendFile(path.resolve(`${__dirname}/../dist/bundle.js`))
+    res.sendFile(path.resolve(`${__dirname}/../dist/catalog.js`))
   })
 
   const httpServer = require('http').createServer(app);
