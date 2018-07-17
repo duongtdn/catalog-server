@@ -8,19 +8,25 @@ class Catalog extends Component {
   }
 
   render() {
+    const catalog = this.props.data || {};
     return (
       <div>
         <h2> Catalog </h2>
-        <p> {JSON.stringify(this.props.data)} </p>
-        <button onClick = {this.alert}> Alert </button>
+        <ul>
+          {
+            catalog.courses && catalog.courses.map(course => (
+              <li key={course.courseId}> 
+                {course.title} 
+                <a href={`/course/${course.courseId}`}> Enter </a>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     )
   }
 
-  alert() {
-    console.log('alert')
-  }
-  
+ 
 }
 
 module.exports = Catalog
