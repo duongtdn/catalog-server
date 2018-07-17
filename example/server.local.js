@@ -33,6 +33,6 @@ db.start().add({catalogdb}).init(() => {
 
   const httpServer = require('http').createServer(app);
   httpServer.listen(PORT, function() {
-    console.log(`\n# CATALOG WEB SERVER is running at http://localhost:${PORT}\n`);
+    console.log(`\n# WEB SERVER is running at http://localhost:${PORT}\n`);
   })  
 });
