@@ -4,7 +4,8 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    catalog: ['./client/catalog.js']
+    catalog: ['./client/catalog.js'],
+    course: ['./client/course.js']
   },
   module: {
     rules: [

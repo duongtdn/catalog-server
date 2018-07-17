@@ -9,6 +9,7 @@ const cors = require('cors')
 /* create api */
 const DatabaseAbstractor = require("database-abstractor")
 const catalog = new DatabaseAbstractor();
+const course = new DatabaseAbstractor();
 
 const DB = {
   HOST: process.env.DB_HOST || 'http://localhost',
@@ -20,7 +21,12 @@ catalog.use(require('catalogdb-dynamodb-driver')({
   endpoint : `${DB.HOST}:${DB.PORT}`
 }))
 
-api.useDatabase({ catalog })
+course.use(require('coursedb-dynamodb-driver')({
+  region : 'us-west-2', 
+  endpoint : `${DB.HOST}:${DB.PORT}`
+}))
+
+api.useDatabase({ catalog, course })
 
 /* create express app from api */
 const app = express();

@@ -4,6 +4,7 @@ const api = require('express-api-binder')
 
 const funcs = [
   'get/catalog/:catalog',
+  'get/course/:course',
 ]
 
 funcs.forEach(func => {

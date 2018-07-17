@@ -7,6 +7,7 @@ const path = require('path')
 /* start db and server */
 const db = require('database-test-helper')
 const catalogdb = require('catalogdb-test-helper')
+const coursedb = require('coursedb-test-helper')
 
 
 // require('babel-register')({
@@ -22,14 +23,18 @@ const catalogdb = require('catalogdb-test-helper')
 //   }
 // })
 
-db.start().add({catalogdb}).init(() => {
+db.start().add({catalogdb, coursedb}).init(() => {
   const PORT = process.env.PORT_LOCAL_TEST || 3100;   
   const app = require('./app.local');
 
-  // server client script
-  app.get('/catalog/script/bundle.js', (req, res) => {
-    res.sendFile(path.resolve(`${__dirname}/../dist/catalog.js`))
-  })
+  // server client scripts
+  app
+    .get('/catalog/script/bundle.js', (req, res) => {
+      res.sendFile(path.resolve(`${__dirname}/../dist/catalog.js`))
+    })
+    .get('/course/script/bundle.js', (req, res) => {
+      res.sendFile(path.resolve(`${__dirname}/../dist/course.js`))
+    })
 
   const httpServer = require('http').createServer(app);
   httpServer.listen(PORT, function() {
