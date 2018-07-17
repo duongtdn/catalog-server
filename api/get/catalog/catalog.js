@@ -1,9 +1,6 @@
 "use strict"
 
-const React = require('react')
-const { renderToString  } = require('react-dom/server')
-
-const htmlTemplate = require('../../../render/html')
+const render = require('../../../lib/render')
 const Catalog = require('../../../render/Catalog')
 
 function getCatalog(db) {
@@ -20,21 +17,5 @@ function getCatalog(db) {
   }
 }
 
-const title = process.env.CATALOG_PAGE_TITLE || 'Page Title';
-const script = process.env.CATALOG_PAGE_SCRIPT || 'script/index.js'
-const style = process.env.CATALOG_PAGE_STYLE || 'style/style.css'
-
-function render() {
-  return function(req, res) {
-    if (req.data) {
-      const reactDom = renderToString(<Catalog data = {req.data} />)
-      res.writeHead( 200, { "Content-Type": "text/html" } );
-      res.end( htmlTemplate( {title, script, style, reactDom, data: req.data} ) );
-    } else {
-      // render 404 page
-    }
-  }
-}
-
-module.exports = [getCatalog, render]
+module.exports = [getCatalog, render({Component: Catalog, script: 'script/index.js'})]
  
