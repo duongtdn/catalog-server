@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = ({title, style, script, reactDom}) => `
+module.exports = ({title, style, script, reactDom, data}) => `
   <!DOCTYPE html>
   <html>
     <head>
@@ -11,6 +11,9 @@ module.exports = ({title, style, script, reactDom}) => `
     </head>
     <body>
       <div id="root">${ reactDom }</div>
+      <script>
+        window.DATA=${JSON.stringify(data)}
+      </script>
       <script src="./${script}"></script>
     </body>
   </html>

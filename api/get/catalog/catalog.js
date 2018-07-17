@@ -29,7 +29,7 @@ function render() {
     if (req.data) {
       const reactDom = renderToString(<Catalog data = {req.data} />)
       res.writeHead( 200, { "Content-Type": "text/html" } );
-      res.end( htmlTemplate( {title, script, style, reactDom} ) );
+      res.end( htmlTemplate( {title, script, style, reactDom, data: req.data} ) );
     } else {
       // render 404 page
     }
