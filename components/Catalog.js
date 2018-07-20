@@ -10,7 +10,7 @@ class Catalog extends Component {
   render() {
     const catalog = this.props.data || {};
     return (
-      <div className="w3-light-grey">       
+      <div className="">       
         <div className="w3-container w3-margin">
           <div> <h2> {catalog.title} </h2> </div>
           {
