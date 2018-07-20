@@ -41,7 +41,7 @@ class Catalog extends Component {
                             <br />
                             {
                               course.skills.map(skill => (
-                                <span key={skill} > <span className="w3-tag w3-round  w3-green" style={{margin: '4px 0'}}> {skill} </span> {'\u00A0'} </span>
+                                <span key={skill} > <span className="w3-tag w3-round w3-left-align w3-green" style={{margin: '4px 0'}}> {skill} </span> {'\u00A0'} </span>
                                 // <span key={skill} > <span className="w3-text-green" style={{margin: '4px 0', fontWeight: 'bold'}}> {skill} </span> {'\u00A0'} </span>
                               ))
                             }
