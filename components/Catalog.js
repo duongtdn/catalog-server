@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react'
 
+import Header from './Header'
+
 class Catalog extends Component {
   constructor(props) {
     super(props)
@@ -10,9 +12,12 @@ class Catalog extends Component {
   render() {
     const catalog = this.props.data || {};
     return (
-      <div className="sg-content">       
+      <div className="sg-content">     
+        <Header />  
         <div className="w3-container w3-margin">
-          <div> <h2> {catalog.title} </h2> </div>
+          {/* <div className="cursor-pointer w3-tag w3-border-blue-grey w3-leftbar w3-rightbar w3-white w3-round w3-text-blue-grey"> <h3> {catalog.title} </h3> </div> */}
+          <div className="cursor-pointer w3-tag w3-round-large w3-blue-grey"> <h3> {catalog.title} </h3> </div>
+          <div className="cursor-pointer w3-tag w3-round-large w3-hover-khaki" style={{marginLeft: '16px', background: 'none', color: 'grey'}}> <h3> Web Developer </h3> </div>
           {
             catalog.courses && catalog.courses.map(course => {
               const _rating = this._ratingCourseLevel(course.level);
