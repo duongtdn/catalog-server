@@ -21,11 +21,11 @@ class Catalog extends Component {
             list.map(cat => {
               if (cat.title === catalog.title) {
                 return (
-                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-blue-grey"> <h3> {catalog.title} </h3> </div>
+                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-blue-grey"  style={{marginRight: '16px'}}> <h3> {catalog.title} </h3> </div>
                 )
               } else {
                 return (
-                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-hover-khaki" style={{marginLeft: '16px', background: 'none', color: 'grey'}}> 
+                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-hover-khaki" style={{marginRight: '16px', background: 'none', color: 'grey'}}> 
                     <h3> <a href={`/catalog/${cat.catalogId}`} style={{textDecoration: 'none'}}> {cat.title} </a> </h3> 
                   </div>
                 )
@@ -60,13 +60,13 @@ class Catalog extends Component {
                         <img src={course.picture} className="w3-container w3-cell w3-hide-small" style={{width:'200px', borderRadius: '24px'}} />
                       
                         <div className="w3-container w3-cell">
-                          <div className="w3-large w3-text-dark-grey" style={{fontWeight: 'bold', padding: '0 0 8px 0'}}> {course.title} </div> 
+                          <div className="cursor-pointer w3-large w3-text-dark-grey" style={{fontWeight: 'bold', padding: '0 0 8px 0'}}> {course.title} </div> 
                           <div>                    
                             <span className="w3-text-grey"> Develop Skills: </span>
                             <br />
                             {
                               course.skills.map(skill => (
-                                <span key={skill} > <span className="w3-tag w3-round w3-left-align w3-green" style={{margin: '4px 0'}}> {skill} </span> {'\u00A0'} </span>
+                                <span key={skill} > <span className="cursor-pointer w3-tag w3-round w3-left-align w3-green" style={{margin: '4px 0'}}> {skill} </span> {'\u00A0'} </span>
                                 // <span key={skill} > <span className="w3-text-green" style={{margin: '4px 0', fontWeight: 'bold'}}> {skill} </span> {'\u00A0'} </span>
                               ))
                             }
@@ -79,7 +79,7 @@ class Catalog extends Component {
                             {
                               course.certificates.map(cert => (
                                 // <span key={cert} > <span className="w3-tag w3-teal" style={{margin: '4px 0'}}> {cert} </span> {'\u00A0'} </span>
-                                <span key={cert} > <span className="w3-text-blue" style={{margin: '4px 0', fontWeight: 'bold', display: 'inline-block'}}> + {cert} </span> {'\u00A0'} </span>
+                                <span key={cert} > <span className="cursor-pointer w3-text-blue" style={{margin: '4px 0', fontWeight: 'bold', display: 'inline-block'}}> + {cert} </span> {'\u00A0'} </span>
                               ))
                             }                  
                           </div>
