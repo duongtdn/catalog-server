@@ -10,14 +10,14 @@ class Catalog extends Component {
   render() {
     const catalog = this.props.data || {};
     return (
-      <div className="">       
+      <div className="sg-content">       
         <div className="w3-container w3-margin">
           <div> <h2> {catalog.title} </h2> </div>
           {
             catalog.courses && catalog.courses.map(course => {
               const _rating = this._ratingCourseLevel(course.level);
               return (
-                <div key={course.courseId} className="w3-card w3-round-large w3-white" style={{margin: '32px 0', padding: '0 0 8px 0'}} > 
+                <div key={course.courseId} className="w3-card-4 w3-round-large w3-white" style={{margin: '32px 0', padding: '0 0 8px 0'}} > 
                   <div className="w3-container" >                    
                       <div className="w3-bar-item  w3-right">                    
                         {
@@ -62,7 +62,7 @@ class Catalog extends Component {
                       </div>
                     </div>
                     <div className="w3-bar-item w3-right">
-                      <a href={`/course/${course.courseId}`} className="w3-button w3-orange w3-card-4"> Click to enter </a>
+                      <a href={`/course/${course.courseId}`} className="w3-button w3-round w3-orange w3-card-4"> Click to enter </a>
                     </div>
                   </div>
                 </div>
