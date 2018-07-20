@@ -10,19 +10,37 @@ class Catalog extends Component {
   }
 
   render() {
-    const catalog = this.props.data || {};
+    const catalog = this.props.data.catalog || {};
+    const list = this.props.data.list || {};
     return (
       <div className="sg-content">     
         <Header />  
-        <div className="w3-container w3-margin">
-          {/* <div className="cursor-pointer w3-tag w3-border-blue-grey w3-leftbar w3-rightbar w3-white w3-round w3-text-blue-grey"> <h3> {catalog.title} </h3> </div> */}
-          <div className="cursor-pointer w3-tag w3-round-large w3-blue-grey"> <h3> {catalog.title} </h3> </div>
-          <div className="cursor-pointer w3-tag w3-round-large w3-hover-khaki" style={{marginLeft: '16px', background: 'none', color: 'grey'}}> <h3> Web Developer </h3> </div>
+        <div className="w3-container w3-margin">                   
+          {/* render list of catalogs */}
+          {
+            list.map(cat => {
+              if (cat.title === catalog.title) {
+                return (
+                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-blue-grey"> <h3> {catalog.title} </h3> </div>
+                )
+              } else {
+                return (
+                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-hover-khaki" style={{marginLeft: '16px', background: 'none', color: 'grey'}}> 
+                    <h3> <a href={`/catalog/${cat.catalogId}`} style={{textDecoration: 'none'}}> {cat.title} </a> </h3> 
+                  </div>
+                )
+              }
+            })
+          }
+          
+          {/* render list of courses */}
           {
             catalog.courses && catalog.courses.map(course => {
               const _rating = this._ratingCourseLevel(course.level);
               return (
+
                 <div key={course.courseId} className="w3-card-4 w3-round-large w3-white" style={{margin: '32px 0', padding: '0 0 8px 0'}} > 
+                  {/* render small line indicate course level */}
                   <div className="w3-container" >                    
                       <div className="w3-bar-item  w3-right">                    
                         {
@@ -34,7 +52,9 @@ class Catalog extends Component {
                         <span className='w3-small'> {course.level} </span>
                     </div>
                   </div>
+                  
                   <div className="w3-bar">
+                    {/* render course info */}
                     <div className="w3-bar-item">
                       <div className="w3-cell-row">
                         <img src={course.picture} className="w3-container w3-cell w3-hide-small" style={{width:'200px', borderRadius: '24px'}} />
@@ -66,6 +86,7 @@ class Catalog extends Component {
                         </div>
                       </div>
                     </div>
+                    {/* render course action button */}
                     <div className="w3-bar-item w3-right">
                       <a href={`/course/${course.courseId}`} className="w3-button w3-round w3-orange w3-card-4"> Click to enter </a>
                     </div>
