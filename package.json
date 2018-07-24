@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@stormgle/jtoken-util": "^1.0.0",
+    "@stormgle/auth-client": "^1.2.0",
     "@stormgle/react-user": "^1.0.0",
     "express-api-binder": "^1.1.0",
     "simple-json-xhr": "^1.2.0",
