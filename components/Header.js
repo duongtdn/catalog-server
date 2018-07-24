@@ -52,6 +52,7 @@ class LoginPanel extends Component {
           <Login show = {this.props.display} 
                  close = {this.props.close} 
                  api = {_api}
+                 route='login'
           /> 
         </div>
       </div>
