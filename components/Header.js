@@ -4,16 +4,22 @@ import React, { Component } from 'react'
 
 class Sidebar extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+
   }
   render() {
+    const _display = this.props.display ? 'block' : 'none';
     return (
-      <div className="w3-sidebar w3-bar-block w3-hide-medium w3-hide-large" style={{right:0}}>
-        <div className="w3-bar-item" > 
+      <div className="w3-sidebar w3-bar-block w3-animate-right w3-hide-medium w3-hide-large" 
+           style= {{ display: _display, right: 0, width: '100%', background: 'linear-gradient(to bottom right, #f1f1f1  0%, #ddffff  100%)' }} 
+      >
+        <span className="w3-button w3-display-topright w3-text-red" onClick={this.props.close}>X</span>
+
+        <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px'}} > 
           <button className="w3-button w3-block w3-large w3-blue w3-card-4 w3-round"> Login </button>
           <button className="w3-button w3-block w3-hover-none w3-hover-text-blue no-outline"> Sign up </button>
         </div>
-        <hr />
+        
         <a href="#" className="w3-bar-item w3-button">Home</a>
         <a href="#" className="w3-bar-item w3-button">About</a>
         <a href="#" className="w3-bar-item w3-button">Contact</a>
@@ -25,7 +31,15 @@ class Sidebar extends Component {
 
 class Header extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state = {
+      sidebar: false
+    }
+
+    const methods = ['closeSidebar', 'openSidebar']
+    methods.forEach( method => this[method] = this[method].bind(this) )
+
   }
 
   render() {
@@ -33,11 +47,11 @@ class Header extends Component {
       <div className="w3-container w3-bar">
         <div className="w3-bar-item" > <h2> Catalog </h2> </div>
 
-        <div className="w3-bar-item w3-right w3-hide-medium w3-hide-large" style={{marginTop: '16px'}}> 
-          <i className="fa fa-bars w3-xlarge"  aria-hidden="true" ></i>
+        <div className="w3-bar-item w3-right w3-hide-medium w3-hide-large" style={{marginTop: '16px'}} > 
+          <i className="fa fa-bars w3-xlarge cursor-pointer"  aria-hidden="true"  onClick={this.openSidebar} ></i>
         </div>
 
-        <Sidebar />
+        <Sidebar display = {this.state.sidebar} close = {this.closeSidebar} />
 
         <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}> 
           <button className="w3-button w3-hover-none w3-hover-text-blue no-outline"> Sign up </button>
@@ -52,6 +66,14 @@ class Header extends Component {
 
       </div>
     )
+  }
+
+  closeSidebar() {
+    this.setState({ sidebar: false })
+  }
+
+  openSidebar() {
+    this.setState({ sidebar: true })
   }
 
 }
