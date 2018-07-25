@@ -151,7 +151,7 @@ class Header extends Component {
   }
 
   closeLogin() {
-    this.setState({ showLogin: false })
+    this.setState({ showLogin: false, showSidebar: false })
   }
 
 }
