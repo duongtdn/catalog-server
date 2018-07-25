@@ -74,6 +74,12 @@ class Header extends Component {
 
   }
 
+  componentDidMount() {
+    if (typeof window !== 'undefined') {
+      this.setState({ isClient : true })
+    }
+  }
+
   render() {
     return (
       <div className="w3-container w3-bar">
@@ -90,9 +96,9 @@ class Header extends Component {
         {/* render for medium and large device */}
 
         {
-          (typeof window !== 'undefined') && this.props.user? 
+          (this.state.isClient && this.props.user)? 
             <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}> 
-              <div className="w3-bar-item"> {this.props.user.name || this.props.user.email} </div>
+              <div className="w3-bar-item"> {this.props.user.displayName || this.props.user.username} </div>
               <button className="w3-button w3-large w3-blue w3-round" onClick={this.logout}> Logout </button>
             </div>
           :
