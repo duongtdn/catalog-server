@@ -32,8 +32,8 @@ class Sidebar extends Component {
             </div>
           :
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px'}} >               
-              <button className="w3-button w3-block w3-large w3-blue w3-card-4 w3-round" onClick={this.props.login}> Login </button>
-              <button className="w3-button w3-block w3-text-orange w3-hover-none w3-hover-text-blue no-outline"> Sign up </button>
+              <button className="w3-button w3-block w3-large w3-blue w3-card-4 w3-round" onClick={() => this.props.login('login')}> Login </button>
+              <button className="w3-button w3-block w3-text-orange w3-hover-none w3-hover-text-blue no-outline" onClick={() => this.props.login('signup')} > Sign up </button>
             </div>
         }
         
@@ -60,7 +60,7 @@ class LoginPanel extends Component {
           <Login show = {this.props.display} 
                  close = {this.props.close} 
                  api = {_api}
-                 route='login'
+                 route={this.props.route}
           /> 
         </div>
       </div>
@@ -74,7 +74,8 @@ class Header extends Component {
 
     this.state = {
       showSidebar: false,
-      showLogin: false
+      showLogin: false,
+      route: 'login'
     }
 
     const methods = ['closeSidebar', 'openSidebar', 'login', 'logout', 'closeLogin']
@@ -117,8 +118,8 @@ class Header extends Component {
             </div>
           :
             <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}>               
-              <button className="w3-button w3-text-orange w3-hover-none w3-hover-text-blue no-outline"> Sign up </button>
-              <button className="w3-button w3-large w3-blue w3-card-4 w3-round" onClick={this.login}> Login </button>
+              <button className="w3-button w3-text-orange w3-hover-none w3-hover-text-blue no-outline" onClick={() => this.login('signup')} > Sign up </button>
+              <button className="w3-button w3-large w3-blue w3-card-4 w3-round" onClick={() => this.login('login')}> Login </button>
             </div>
         }
         
@@ -128,7 +129,7 @@ class Header extends Component {
           <a href="#" className="w3-bar-item w3-button no-outline">Contact</a>
         </div>
 
-        <LoginPanel display = {this.state.showLogin} close={this.closeLogin} />
+        <LoginPanel display = {this.state.showLogin} route = {this.state.route} close={this.closeLogin} />
 
       </div>
     )
@@ -142,8 +143,8 @@ class Header extends Component {
     this.setState({ showSidebar: true })
   }
 
-  login() {
-    this.setState({ showLogin: true })
+  login(route) {
+    this.setState({ route, showLogin: true })
   }
 
   logout() {
