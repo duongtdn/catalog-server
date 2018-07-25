@@ -24,10 +24,18 @@ class Sidebar extends Component {
       >
         <span className="w3-button w3-display-topright w3-text-red" onClick={this.props.close}>X</span>
 
-        <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px'}} > 
-          <button className="w3-button w3-block w3-large w3-blue w3-card-4 w3-round" onClick={this.props.login}> Login </button>
-          <button className="w3-button w3-block w3-text-orange w3-hover-none w3-hover-text-blue no-outline"> Sign up </button>
-        </div>
+        {
+          (this.props.isClient && this.props.user)? 
+            <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}> 
+              <div className="w3-bar-item"> {this.props.user.displayName || this.props.user.username} </div>
+              <button className="w3-button w3-large w3-blue w3-round" onClick={this.props.logout}> Logout </button>
+            </div>
+          :
+            <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}>               
+              <button className="w3-button w3-block w3-large w3-blue w3-card-4 w3-round" onClick={this.props.login}> Login </button>
+              <button className="w3-button w3-block w3-text-orange w3-hover-none w3-hover-text-blue no-outline"> Sign up </button>
+            </div>
+        }
         
         <a href="#" className="w3-bar-item w3-button">Home</a>
         <a href="#" className="w3-bar-item w3-button">About</a>
@@ -91,7 +99,13 @@ class Header extends Component {
           <i className="fa fa-bars w3-xlarge cursor-pointer"  aria-hidden="true"  onClick={this.openSidebar} ></i>
         </div>
 
-        <Sidebar display = {this.state.showSidebar} close = {this.closeSidebar} login={this.login} />
+        <Sidebar  display = {this.state.showSidebar} 
+                  close = {this.closeSidebar} 
+                  login={this.login} 
+                  logout={this.logout}
+                  user={this.props.user}
+                  isClient={this.state.isClient} 
+        />
 
         {/* render for medium and large device */}
 
