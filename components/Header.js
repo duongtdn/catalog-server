@@ -28,11 +28,11 @@ class Sidebar extends Component {
           (this.props.isClient && this.props.user)? 
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'center', paddingBottom: '16px'}} > 
               <div className="w3-bar-item" style={{textAlign: 'center'}}> {this.props.user.displayName || this.props.user.username} </div>
-              <button className="w3-button w3-large w3-blue w3-round" onClick={this.props.logout}> Logout </button>
+              <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.props.logout}> Logout </button>
             </div>
           :
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px'}} >               
-              <button className="w3-button w3-block w3-large w3-blue w3-card-4 w3-round" onClick={() => this.props.login('login')}> Login </button>
+              <button className="w3-button w3-block w3-large w3-border w3-border-blue-grey w3-card-4 w3-round" onClick={() => this.props.login('login')}> Login </button>
               <button className="w3-button w3-block w3-text-orange w3-hover-none w3-hover-text-blue no-outline" onClick={() => this.props.login('signup')} > Sign up </button>
             </div>
         }
@@ -114,12 +114,12 @@ class Header extends Component {
           (this.state.isClient && this.props.user)? 
             <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}> 
               <div className="w3-bar-item"> {this.props.user.displayName || this.props.user.username} </div>
-              <button className="w3-button w3-large w3-blue w3-round" onClick={this.logout}> Logout </button>
+              <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.logout}> Logout </button>
             </div>
           :
             <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}>               
               <button className="w3-button w3-text-orange w3-hover-none w3-hover-text-blue no-outline" onClick={() => this.login('signup')} > Sign up </button>
-              <button className="w3-button w3-large w3-blue w3-card-4 w3-round" onClick={() => this.login('login')}> Login </button>
+              <button className="w3-button w3-large w3-border w3-border-blue-grey w3-card-4 w3-round" onClick={() => this.login('login')}> Login </button>
             </div>
         }
         
