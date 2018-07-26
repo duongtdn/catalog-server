@@ -61,6 +61,7 @@ class Catalog extends Component {
                       
                         <div className="w3-container w3-cell">
                           <div className="cursor-pointer w3-large w3-text-dark-grey" style={{fontWeight: 'bold', padding: '0 0 8px 0'}}> {course.title} </div> 
+                          <div className="w3-text-dark-grey" style={{fontStyle: 'italic', padding: '0 0 8px 0'}}> {course.snippet} </div> 
                           <div>                    
                             <span className="w3-text-grey"> Develop Skills: </span>
                             <br />
