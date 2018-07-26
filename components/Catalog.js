@@ -57,7 +57,7 @@ class Catalog extends Component {
                     {/* render course info */}
                     <div className="w3-bar-item">
                       <div className="w3-cell-row">
-                        <img src={course.picture} className="w3-container w3-cell w3-hide-small" style={{width:'200px', borderRadius: '24px'}} />
+                        <img src={course.thumbnail} className="w3-container w3-cell w3-hide-small" style={{width:'200px', borderRadius: '24px'}} />
                       
                         <div className="w3-container w3-cell">
                           <div className="cursor-pointer w3-large w3-text-dark-grey" style={{fontWeight: 'bold', padding: '0 0 8px 0'}}> {course.title} </div> 
