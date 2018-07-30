@@ -30,10 +30,14 @@ db.start().add({catalogdb, coursedb}).init(() => {
   // server client scripts
   app
     .get('/catalog/script/bundle.js', (req, res) => {
-      res.sendFile(path.resolve(`${__dirname}/../dist/catalog.js`))
+      setTimeout(() => {
+        res.sendFile(path.resolve(`${__dirname}/../dist/catalog.js`))
+      }, 0)      
     })
     .get('/course/script/bundle.js', (req, res) => {
-      res.sendFile(path.resolve(`${__dirname}/../dist/course.js`))
+      setTimeout(() => {
+        res.sendFile(path.resolve(`${__dirname}/../dist/course.js`))
+      }, 0)            
     })
 
   const httpServer = require('http').createServer(app);
