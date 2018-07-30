@@ -125,6 +125,7 @@ class Header extends Component {
         
         <div className="w3-bar-item w3-right w3-hide-small w3-border-right" style={{marginTop: '16px'}}> 
           <a href="#" className="w3-bar-item w3-button no-outline">Home</a>
+          <a href="/catalog/ca-emb" className="w3-bar-item w3-button no-outline">Catalog</a>
           <a href="#" className="w3-bar-item w3-button no-outline">About</a>
           <a href="#" className="w3-bar-item w3-button no-outline">Contact</a>
         </div>
