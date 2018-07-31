@@ -18,7 +18,9 @@ class Course extends Component {
         {/* render course detail */}
         <div className="w3-container w3-margin">
 
-          <h2> {course.title} </h2>
+          <h2 style = {{fontWeight: 'bold'}}> {course.title} </h2>
+
+          <span className="w3-tag w3-green">  {course.level} </span>
           
           {/* render 1st panel: course information */}
           <div className="w3-row">
@@ -27,8 +29,6 @@ class Course extends Component {
             <div className="w3-half">
 
               <p className="w3-text-grey" style={{fontStyle: 'italic'}} > {course.snippet} </p>
-
-              <p style={{fontWeight: 'bold'}}> <span className="w3-text-grey">Level: </span> <span  className="w3-text-green" > {course.level} </span> </p>
 
               <p className="w3-text-grey" style={{fontWeight: 'bold'}}> Skills </p>
               {
@@ -44,10 +44,23 @@ class Course extends Component {
                 ))
               }
 
-              <hr />
+              <br />
 
-              <div>
-                <button className="w3-button w3-green w3-card-4"> Enroll Now </button>
+              <div style={{marginBottom: '32px'}} >
+                <p style={{fontStyle: 'italic'}} > There are <span style={{fontWeight: 'bold'}} > 2831 </span> students joined this course </p>
+                <button className="w3-button w3-green w3-card-4"> Enroll Now (Save 15%) </button>
+                <p> New course offer SALE: </p>
+                <p > 
+
+                  <span className="w3-large w3-text-red" style={{fontWeight: 'bold', textDecoration: 'line-through', marginRight: '16px'}}> 
+                    {course.price.value.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })}
+                  </span> 
+
+                  <span className="w3-small w3-text-orange" style={{fontWeight: 'bold'}}> 
+                    {course.price.value.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })}
+                  </span> 
+                </p>
+
               </div>
 
             </div>
@@ -59,7 +72,61 @@ class Course extends Component {
               </div>
             </div>
 
-          </div> 
+          </div>          
+
+        </div>
+
+
+        {/* render course information */}
+        <div className="w3-container w3-margin" >
+
+          <hr />
+
+          <h3 className="w3-text-blue-grey" style = {{fontWeight: 'bold'}}> COURSE INFORMATION </h3>
+
+          <div className="w3-text-dark-grey"> 
+            <div> {course.description} </div>
+            
+            <div >
+              <p style={{fontWeight: 'bold'}}> What you will learned after this course </p>
+              {
+                course.objective.map( (obj,index) => (
+                  <p key={index} style={{marginLeft: '16px'}} > {obj} </p>
+                ))
+              }
+            </div>
+
+            <div >
+              <p style={{fontWeight: 'bold'}}> Skills to be accquired and improved </p>
+              {
+                course.skills.map( (skill, index) => (
+                  <p key={index} className="cursor-pointer" style={{marginLeft: '16px'}} > {skill} </p>
+                ))
+              }
+            </div>
+
+            <div >
+              <p style={{fontWeight: 'bold'}}> This course is required for certificates </p>
+              {
+                course.certificates.map( (cert, index) => (
+                  <p key={index} className="cursor-pointer" style={{marginLeft: '16px'}} > {cert} </p>
+                ))
+              }
+            </div>
+
+            <div>
+              <p style={{fontWeight: 'bold'}} > Course Structure </p>
+              <p  style={{marginLeft: '16px'}} > Video lessons: {course.structure.video} </p>
+              <p  style={{marginLeft: '16px'}} > Interactive quizs: {course.structure.quiz} </p>
+              <p  style={{marginLeft: '16px'}} > Exercises: {course.structure.exercise} </p>
+              <p  style={{marginLeft: '16px'}} > Final test: {course.structure.test} </p>
+            </div>
+
+          </div>
+
+          
+
+
 
         </div>
 
