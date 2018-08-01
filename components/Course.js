@@ -4,13 +4,24 @@ import React, { Component } from 'react'
 import { bindUserProvider  } from '@stormgle/react-user'
 
 import Header from './Header'
+import Purchase from './Purchase'
 import { localeString } from '../lib/utils'
 
 class Course extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { isClient: false }
+    this.state = { 
+      isClient: false,
+      showPurchase: false 
+    }
+
+    const methods = [
+      'openPurchase',
+      'cancelPurchase'
+    ]
+    methods.forEach(method => this[method] = this[method].bind(this))
+
   }
 
   componentDidMount() {
@@ -90,7 +101,9 @@ class Course extends Component {
                 {
                   (this.state.isClient && price.discount) ?
                     <div>
-                      <button className="w3-button w3-green w3-card-4"> Enroll Now (Save {price.discount}%) </button>
+                      <button className="w3-button w3-green w3-card-4" onClick = {this.openPurchase} > 
+                        Enroll Now (Save {price.discount}%) 
+                      </button>
                       <p> {course.promote.reason} </p>
                       <p > 
 
@@ -193,8 +206,20 @@ class Course extends Component {
 
         </div>
 
+        <Purchase show = {this.state.showPurchase} 
+                  cancel = {this.cancelPurchase} 
+        />
+
       </div>
     )
+  }
+
+  openPurchase() {
+    this.setState({ showPurchase: true })
+  }
+
+  cancelPurchase() {
+    this.setState({ showPurchase: false })
   }
 
  
