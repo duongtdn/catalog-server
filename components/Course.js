@@ -47,9 +47,13 @@ class Course extends Component {
               <br />
 
               <div style={{marginBottom: '32px'}} >
-                <p style={{fontStyle: 'italic'}} > There are <span style={{fontWeight: 'bold'}} > 2831 </span> students joined this course </p>
+                {
+                  course.enroll > 100 ?
+                    <p style={{fontStyle: 'italic'}} > There are <span style={{fontWeight: 'bold'}} > {course.enroll} </span> students joined this course </p>
+                    : null
+                }                                
                 <button className="w3-button w3-green w3-card-4"> Enroll Now (Save 15%) </button>
-                <p> New course offer SALE: </p>
+                <p> Discount for new course: </p>
                 <p > 
 
                   <span className="w3-large w3-text-red" style={{fontWeight: 'bold', textDecoration: 'line-through', marginRight: '16px'}}> 
