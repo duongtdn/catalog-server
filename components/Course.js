@@ -1,16 +1,61 @@
 "use strict"
 
 import React, { Component } from 'react'
+import { bindUserProvider  } from '@stormgle/react-user'
 
 import Header from './Header'
 
+function localeString(x, sep, grp) {
+  var sx = (''+x).split('.'), s = '', i, j;
+  sep || (sep = ' '); // default seperator
+  grp || grp === 0 || (grp = 3); // default grouping
+  i = sx[0].length;
+  while (i > grp) {
+      j = i - grp;
+      s = sep + sx[0].slice(j, i) + s;
+      i = j;
+  }
+  s = sx[0].slice(0, i) + s;
+  sx[0] = s;
+  return sx.join('.');
+}
+
 class Course extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state = { isClient: false }
+  }
+
+  componentDidMount() {
+    if (typeof window !== 'undefined') {
+      this.setState({ isClient : true })
+    }
   }
 
   render() {
     const course = this.props.data || {};
+
+    // if client, recalculate price offer for user
+    const price = {
+      origin: course.price.value
+    }
+    if (this.state.isClient) {
+      let deduction = 0;
+      if (course.promote.discount) {
+        deduction += course.promote.discount;
+      }
+      if (this.props.user && 
+          this.props.user.promote && 
+          this.props.user.promote.course  && this.props.user.promote.course[course.courseId] ) {
+        deduction += this.props.user.promote.course[course.courseId];
+      }
+
+      const offer = price.origin - deduction;
+      price.offer = (offer > 0) ? offer : 0;
+      price.discount = Math.floor((deduction / price.origin) * 100)
+    }
+
     return (
       <div className="sg-content">
         <Header />
@@ -46,24 +91,53 @@ class Course extends Component {
 
               <br />
 
+
+              {/* Enroll button */}
               <div style={{marginBottom: '32px'}} >
                 {
                   course.enroll > 100 ?
                     <p style={{fontStyle: 'italic'}} > There are <span style={{fontWeight: 'bold'}} > {course.enroll} </span> students joined this course </p>
                     : null
-                }                                
-                <button className="w3-button w3-green w3-card-4"> Enroll Now (Save 15%) </button>
-                <p> Discount for new course: </p>
-                <p > 
+                }              
 
-                  <span className="w3-large w3-text-red" style={{fontWeight: 'bold', textDecoration: 'line-through', marginRight: '16px'}}> 
-                    {course.price.value.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })}
-                  </span> 
+                {/* recalculate discount price for user in client */}
+                {
+                  (this.state.isClient && price.discount) ?
+                    <div>
+                      <button className="w3-button w3-green w3-card-4"> Enroll Now (Save {price.discount}%) </button>
+                      <p> {course.promote.reason} </p>
+                      <p > 
 
-                  <span className="w3-small w3-text-orange" style={{fontWeight: 'bold'}}> 
-                    {course.price.value.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })}
-                  </span> 
-                </p>
+                        <span className="w3-large w3-text-red" style={{fontWeight: 'bold', textDecoration: 'line-through', marginRight: '16px'}}> 
+                          {/* {price.origin.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })} */}
+                          {localeString(price.origin, '.')} {'\u20ab'}
+                        </span> 
+
+                        <span className="w3-small w3-text-orange" style={{fontWeight: 'bold'}}> 
+                          {/* {price.offer.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })} */}
+                          {localeString(price.offer, '.')} {'\u20ab'}
+                        </span> 
+                      </p>
+                    </div>
+                  :
+                    <div>
+                        <button className="w3-button w3-green w3-card-4"> Enroll Now </button>
+                        <p >
+                          <span className="w3-small w3-text-orange" style={{fontWeight: 'bold', marginRight: '16px'}}> 
+                            {/* {price.origin.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })} */}
+                            {localeString(price.origin, '.')} {'\u20ab'}
+                          </span> 
+
+                          {
+                            this.state.isClient === false ?
+                              <p> Calculating special offer for you... </p>
+                              : null
+                          }                          
+                        </p>
+                    </div>
+                }
+
+                
 
               </div>
 
@@ -141,4 +215,4 @@ class Course extends Component {
  
 }
 
-module.exports = Course
+module.exports = bindUserProvider(Course)
