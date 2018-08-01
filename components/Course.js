@@ -126,14 +126,13 @@ class Course extends Component {
                           <span className="w3-small w3-text-orange" style={{fontWeight: 'bold', marginRight: '16px'}}> 
                             {/* {price.origin.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })} */}
                             {localeString(price.origin, '.')} {'\u20ab'}
-                          </span> 
-
-                          {
-                            this.state.isClient === false ?
-                              <p> Calculating special offer for you... </p>
-                              : null
-                          }                          
+                          </span>                           
                         </p>
+                        {
+                          this.state.isClient === false ?
+                            <p> Calculating special offer for you... </p>
+                            : null
+                        }
                     </div>
                 }
 
