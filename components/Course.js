@@ -53,6 +53,13 @@ class Course extends Component {
       price.discount = Math.floor((deduction / price.origin) * 100)
     }
 
+    const items = [];
+    items.push({
+      name: course.title,
+      code: course.courseId,
+      price: price
+    })
+
     return (
       <div className="sg-content">
         <Header />
@@ -208,6 +215,7 @@ class Course extends Component {
 
         <Purchase show = {this.state.showPurchase} 
                   cancel = {this.cancelPurchase} 
+                  items = {items}
         />
 
       </div>

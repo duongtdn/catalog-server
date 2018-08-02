@@ -2,13 +2,26 @@
 
 import React, { Component } from 'react'
 
+import { localeString } from '../lib/utils'
+
 class Catalog extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    const display = this.props.show ? 'block' : 'none'
+    const display = this.props.show ? 'block' : 'none';
+    
+    let totalPrice = 0;
+    this.props.items.forEach( item => {
+      if (item.price.offer) {
+        totalPrice += item.price.offer;
+      } else {
+        totalPrice += item.price.origin;
+      }
+    })
+
+
     return (
       <div className="w3-modal" style={{ display }}>
         <div className="w3-modal-content w3-animate-top">
@@ -23,15 +36,41 @@ class Catalog extends Component {
 
           <div className="w3-container" style={{marginBottom: '32px'}} >
             <table className="w3-table w3-border w3-bordered">
-              <tr className="w3-blue">
-                <th className = "w3-border-right">Item</th>
-                <th style={{textAlign: 'right'}} >Value</th>
-              </tr>
-              
-              <tr>
-                <td className = "w3-border-right">ABC</td>
-                <td style={{textAlign: 'right'}}>500</td>
-              </tr>
+              <thead>
+                <tr className="w3-blue">
+                  <th className = "w3-border-right">Item</th>
+                  <th style={{textAlign: 'right'}} >Value ({'\u20ab'})</th>
+                </tr>
+              </thead>
+              <tbody>
+              {
+                this.props.items.map((item, index) => (
+                  <tr key={index}>
+                    <td className = "w3-border-right">
+                      <div> {item.name} </div>
+                      <div className="w3-small w3-text-grey"> {item.code} </div>
+                    </td>
+                    <td style={{textAlign: 'right'}}>
+                      {
+                        item.price.discount ? 
+                          <div>
+                            {localeString(item.price.offer)}
+                          </div>
+                        :
+                          <div> {localeString(item.price.origin)} </div>
+                      }
+                      
+                    </td>
+                  </tr>
+                ))
+              }
+              </tbody>
+              <tfoot>
+                <tr className="w3-pale-blue">
+                  <th className = "w3-border-right">Total</th>
+                  <th className="w3-text-orange" style={{textAlign: 'right'}} > {localeString(totalPrice)} </th>
+                </tr>
+              </tfoot>
             </table>
           </div>
 
