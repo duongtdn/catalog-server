@@ -35,15 +35,6 @@ class Catalog extends Component {
             </table>
           </div>
 
-          {/* <footer className="w3-row ">          
-            <div className="w3-half w3-center">
-              <button className="w3-button w3-block" > Move to Cart </button>
-            </div>
-            <div className="w3-half w3-center">
-              <button className="w3-button w3-block" > Process payment </button>
-            </div>
-          </footer> */}
-
           <footer className="w3-bar w3-container w3-padding">     
             <div className="w3-right">
               <button className="w3-button w3-orange" style={{marginRight: '16px'}} > Move to Cart </button>                               
