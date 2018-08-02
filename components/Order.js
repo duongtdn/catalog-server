@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import { localeString } from '../lib/utils'
 
-class Catalog extends Component {
+class Order extends Component {
   constructor(props) {
     super(props)
   }
@@ -75,8 +75,7 @@ class Catalog extends Component {
           </div>
 
           <footer className="w3-bar w3-container w3-padding">     
-            <div className="w3-right">
-              <button className="w3-button w3-orange" style={{marginRight: '16px'}} > Move to Cart </button>                               
+            <div className="w3-right" style={{marginBottom: '8px'}}>                          
               <button className="w3-button w3-blue" > Process payment </button>
             </div>
           </footer>
@@ -88,4 +87,4 @@ class Catalog extends Component {
 
 }
 
-module.exports = Catalog
+module.exports = Order

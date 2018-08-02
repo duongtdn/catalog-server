@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import { bindUserProvider  } from '@stormgle/react-user'
 
 import Header from './Header'
-import Purchase from './Purchase'
+import Order from './Order'
 import { localeString } from '../lib/utils'
 
 class Course extends Component {
@@ -13,12 +13,12 @@ class Course extends Component {
 
     this.state = { 
       isClient: false,
-      showPurchase: false 
+      showOrder: false 
     }
 
     const methods = [
-      'openPurchase',
-      'cancelPurchase'
+      'openOrder',
+      'cancelOrder'
     ]
     methods.forEach(method => this[method] = this[method].bind(this))
 
@@ -108,7 +108,7 @@ class Course extends Component {
                 {
                   (this.state.isClient && price.discount) ?
                     <div>
-                      <button className="w3-button w3-green w3-card-4" onClick = {this.openPurchase} > 
+                      <button className="w3-button w3-green w3-card-4" onClick = {this.openOrder} > 
                         Enroll Now (Save {price.discount}%) 
                       </button>
                       <p> {course.promote.reason} </p>
@@ -213,8 +213,8 @@ class Course extends Component {
 
         </div>
 
-        <Purchase show = {this.state.showPurchase} 
-                  cancel = {this.cancelPurchase} 
+        <Order show = {this.state.showOrder} 
+                  cancel = {this.cancelOrder} 
                   items = {items}
         />
 
@@ -222,12 +222,12 @@ class Course extends Component {
     )
   }
 
-  openPurchase() {
-    this.setState({ showPurchase: true })
+  openOrder() {
+    this.setState({ showOrder: true })
   }
 
-  cancelPurchase() {
-    this.setState({ showPurchase: false })
+  cancelOrder() {
+    this.setState({ showOrder: false })
   }
 
  
