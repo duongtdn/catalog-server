@@ -62,6 +62,12 @@ class Header extends Component {
     }
   }
 
+  componentWillReceiveProps(props) {
+    if (props.showLoginPanel) {
+      this.setState({ showLogin: true, route: props.showLoginPane})
+    }
+  }
+
   render() {
     return (
       <div className="w3-container w3-bar">
@@ -127,6 +133,7 @@ class Header extends Component {
 
   closeLogin() {
     this.setState({ showLogin: false, showSidebar: false })
+    this.props.onLoginPanelClosed && this.props.onLoginPanelClosed();
   }
 
 }
