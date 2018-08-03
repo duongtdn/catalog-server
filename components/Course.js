@@ -7,18 +7,60 @@ import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
 import { localeString } from '../lib/utils'
 
+class LoginRequiredPopup extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const display = this.props.show ? 'block' : 'none';
+    return (
+      <div className="w3-modal" style={{ display }}>
+        <div className="w3-modal-content w3-animate-top">
+          <header className="w3-container "> 
+            <span onClick={this.props.cancel} 
+                  className="w3-button w3-display-topright w3-red">&times;</span>
+            <h3 style={{fontWeight: 'bold'}} > Alert </h3>
+          </header>
+
+          <div className="w3-container" style={{marginBottom: '32px'}} >
+            <p>
+              You need to login or create a new account to enroll this course.
+            </p>
+          </div>
+
+          <footer className="w3-row w3-container w3-padding" style={{marginBottom: '8px'}} >     
+            <div className="w3-half" >                                        
+              <button className="w3-button w3-text-orange w3-block w3-large" style={{fontWeight: 'bold'}} onClick = {this.props.signup} > Create New Account </button>              
+            </div>
+            <div className="w3-half">                          
+              <button className="w3-button w3-text-blue w3-block w3-large" style={{fontWeight: 'bold'}} onClick = {this.props.login} > Login </button>              
+            </div>            
+          </footer>
+
+        </div>
+      </div>
+    )
+  }
+}
+
 class Course extends Component {
   constructor(props) {
     super(props);
 
     this.state = { 
       isClient: false,
-      showPurchaseOrder: false 
+      showLoginRequiredPopup: false,
+      showPurchaseOrder: false ,
+      showLoginPanel: false
     }
 
     const methods = [
+      'openLoginRequiredPopup',
+      'closeLoginRequiredPopup',
       'openPurchaseOrder',
-      'cancelPurchaseOrder'
+      'closePurchaseOrder',
+      'onLoginPanelClosed'
     ]
     methods.forEach(method => this[method] = this[method].bind(this))
 
@@ -62,7 +104,7 @@ class Course extends Component {
 
     return (
       <div className="sg-content">
-        <Header />
+        <Header showLoginPanel = {this.state.showLoginPanel} onLoginPanelClosed = {this.onLoginPanelClosed} />
         
         {/* render course detail */}
         <div className="w3-container w3-margin">
@@ -213,8 +255,14 @@ class Course extends Component {
 
         </div>
 
+        <LoginRequiredPopup show = {this.state.showLoginRequiredPopup}
+                            cancel = {this.closeLoginRequiredPopup}
+                            login = {() => this.openLoginPanel('login')}
+                            signup = {() => this.openLoginPanel('signup')}
+        />
+
         <PurchaseOrder  show = {this.state.showPurchaseOrder} 
-                        cancel = {this.cancelPurchaseOrder} 
+                        cancel = {this.closePurchaseOrder} 
                         items = {items}
         />
 
@@ -222,14 +270,34 @@ class Course extends Component {
     )
   }
 
-  openPurchaseOrder() {
-    this.setState({ showPurchaseOrder: true })
+  openLoginRequiredPopup() {
+    this.setState( { showLoginRequiredPopup : true})
   }
 
-  cancelPurchaseOrder() {
+  closeLoginRequiredPopup() {
+    this.setState( { showLoginRequiredPopup : false})
+  }
+
+  openPurchaseOrder() {
+    if (this.props.user) {
+      this.setState({ showPurchaseOrder: true })
+    } else {
+      this.openLoginRequiredPopup();
+    }
+    
+  }
+
+  closePurchaseOrder() {
     this.setState({ showPurchaseOrder: false })
   }
 
+  onLoginPanelClosed() {
+    this.setState({ showLoginPanel: false })
+  }
+
+  openLoginPanel(route) {
+    this.setState({ showLoginRequiredPopup : false, showLoginPanel: route })
+  }
  
 }
 
