@@ -63,8 +63,8 @@ class Header extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.showLoginPanel) {
-      this.setState({ showLogin: true, route: props.showLoginPane})
+    if (props.showLoginPanel) {      
+     this.login(props.showLoginPanel)
     }
   }
 
