@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import { localeString } from '../lib/utils'
 
-class Order extends Component {
+class PurchaseOrder extends Component {
   constructor(props) {
     super(props)
   }
@@ -28,7 +28,7 @@ class Order extends Component {
 
           <header className="w3-container "> 
             <span onClick={this.props.cancel} 
-                  className="w3-button w3-display-topright w3-hover-red">&times;</span>
+                  className="w3-button w3-display-topright w3-red">&times;</span>
             <h2 style={{fontWeight: 'bold'}} > Purchase Order </h2>
           </header>
 
@@ -87,4 +87,4 @@ class Order extends Component {
 
 }
 
-module.exports = Order
+module.exports = PurchaseOrder
