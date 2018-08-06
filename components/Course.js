@@ -5,6 +5,7 @@ import { bindUserProvider  } from '@stormgle/react-user'
 
 import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
+import ProcessPayment from './ProcessPayment'
 import { localeString } from '../lib/utils'
 
 class LoginRequiredPopup extends Component {
@@ -52,7 +53,8 @@ class Course extends Component {
       isClient: false,
       showLoginRequiredPopup: false,
       showPurchaseOrder: false ,
-      showLoginPanel: false
+      showLoginPanel: false,
+      showProcessPayment: false
     }
 
     const methods = [
@@ -60,7 +62,9 @@ class Course extends Component {
       'closeLoginRequiredPopup',
       'openPurchaseOrder',
       'closePurchaseOrder',
-      'onLoginPanelClosed'
+      'onLoginPanelClosed',
+      'openProcessPayment',
+      'closeProcessPayment'
     ]
     methods.forEach(method => this[method] = this[method].bind(this))
 
@@ -263,7 +267,13 @@ class Course extends Component {
 
         <PurchaseOrder  show = {this.state.showPurchaseOrder} 
                         cancel = {this.closePurchaseOrder} 
+                        next = {this.openProcessPayment}
                         items = {items}
+        />
+
+        <ProcessPayment show = {this.state.showProcessPayment}
+                        cancel = {this.closeProcessPayment}
+
         />
 
       </div>
@@ -297,6 +307,14 @@ class Course extends Component {
 
   openLoginPanel(route) {
     this.setState({ showLoginRequiredPopup : false, showLoginPanel: route })
+  }
+
+  openProcessPayment() {
+    this.setState({ showPurchaseOrder: false, showProcessPayment: true })
+  }
+
+  closeProcessPayment() {
+    this.setState({ showProcessPayment: false })
   }
  
 }

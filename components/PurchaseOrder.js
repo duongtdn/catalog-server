@@ -76,7 +76,7 @@ class PurchaseOrder extends Component {
 
           <footer className="w3-bar w3-container w3-padding">     
             <div className="w3-right" style={{marginBottom: '8px'}}>                          
-              <button className="w3-button w3-blue" > Process payment </button>
+              <button className="w3-button w3-blue" onClick={this.props.next} > Process payment </button>
             </div>
           </footer>
 
