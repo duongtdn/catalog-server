@@ -14,18 +14,39 @@ class COD extends Component {
         <div>
 
           <p>
-            <label > Full name </label>
-            <input className="w3-input w3-border" type="text" />
+            <label > Your name </label>
+            <input  className = "w3-input w3-border" 
+                    type = "text" 
+                    value = {this.props.name} 
+                    onChange = {(evt) => this.props.updateName(evt.target.value)}
+            />
           </p>
 
           <p>
             <label > Phone number </label>
-            <input className="w3-input w3-border" type="text" />
+            <input  className = "w3-input w3-border" 
+                    type = "text" 
+                    value = {this.props.phone} 
+                    onChange = {(evt) => this.props.updatePhone(evt.target.value)}
+            />
+          </p>
+
+          <p>
+            <label > Email </label>
+            <input  className = "w3-input w3-border" 
+                    type = "text" 
+                    value = {this.props.email} 
+                    onChange = {(evt) => this.props.updatePhone(evt.target.value)}
+            />
           </p>
 
           <p>
             <label > Address </label>
-            <input className="w3-input w3-border" type="text" />
+            <input  className = "w3-input w3-border" 
+                    type = "text" 
+                    value = {this.props.address} 
+                    onChange = {(evt) => this.props.updateAddress(evt.target.value)}
+            />
           </p>
 
         </div>
@@ -36,7 +57,34 @@ class COD extends Component {
 
 class ProcessPayment extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state = {
+      name: '',
+      phone: '',
+      address: '',
+      email: ''
+    }
+
+    const methods = [
+      'next',
+      'updateName',
+      'updatePhone',
+      'updateEmail',
+      'updateAddress'
+    ]
+    methods.forEach( method => this[method] = this[method].bind(this) )
+
+  }
+
+  componentWillMount() {
+    if (this.props.user) {
+      const profile = this.props.user.profile || null;
+      const name = profile.fullName || '';
+      const phone = (profile.phone && profile.phone.length) > 0 ? profile.phone[0] : '';
+      const address = profile.address || '';
+      this.setState({ name, phone, address })
+    }
   }
 
   render() {
@@ -59,17 +107,45 @@ class ProcessPayment extends Component {
               <button className="w3-button w3-bar-item w3-blue"> Cost at Delivery (COD) </button>
             </div>
 
-            <COD />
+            <COD  name = {this.state.name}
+                  phone = {this.state.phone}
+                  address = {this.state.address}
+                  email = {this.state.email}
+                  updateName = {this.updateName}
+                  updatePhone = {this.updatePhone}
+                  updateEmail = {this.updateEmail}
+                  updateAddress = {this.updateAddress}
+            />
 
           </div>
 
           <footer className="w3-container" style={{paddingBottom: '16px'}} >
-            <button className="w3-button w3-blue w3-right"> Next </button>
+            <button className="w3-button w3-blue w3-right" onClick={this.next}> Next </button>
           </footer>
 
         </div>
       </div>
     )
+  }
+
+  updateName(name) {
+    this.setState({ name })
+  }
+
+  updatePhone(phone) {
+    this.setState({ phone })
+  }
+
+  updateAddress(address) {
+    this.setState({ address })
+  }
+
+  updateEmail(email) {
+    this.setState({ email })
+  }
+
+  next() {
+    console.log(this.state)
   }
 
 }
