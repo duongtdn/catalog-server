@@ -12,7 +12,22 @@ class COD extends Component {
       <div className="w3-container">
         <p className="w3-text-grey"> Please fill in information below </p>
         <div>
-          abc
+
+          <p>
+            <label > Full name </label>
+            <input className="w3-input w3-border" type="text" />
+          </p>
+
+          <p>
+            <label > Phone number </label>
+            <input className="w3-input w3-border" type="text" />
+          </p>
+
+          <p>
+            <label > Address </label>
+            <input className="w3-input w3-border" type="text" />
+          </p>
+
         </div>
       </div>
     )
@@ -28,7 +43,7 @@ class ProcessPayment extends Component {
     const display = this.props.show ? 'block' : 'none';
     return (
       <div className="w3-modal" style={{ display }}>
-        <div className="w3-modal-content w3-animate-top">
+        <div className="w3-modal-content w3-animate-right">
 
           <header className="w3-container "> 
             <span onClick={this.props.cancel} 
@@ -47,6 +62,10 @@ class ProcessPayment extends Component {
             <COD />
 
           </div>
+
+          <footer className="w3-container" style={{paddingBottom: '16px'}} >
+            <button className="w3-button w3-blue w3-right"> Next </button>
+          </footer>
 
         </div>
       </div>
