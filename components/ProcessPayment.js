@@ -17,7 +17,7 @@ class COD extends Component {
             <label > Your name </label>
             <input  className = "w3-input w3-border" 
                     type = "text" 
-                    value = {this.props.name} 
+                    value = {this.props.fullName} 
                     onChange = {(evt) => this.props.updateName(evt.target.value)}
             />
           </p>
@@ -36,7 +36,7 @@ class COD extends Component {
             <input  className = "w3-input w3-border" 
                     type = "text" 
                     value = {this.props.email} 
-                    onChange = {(evt) => this.props.updatePhone(evt.target.value)}
+                    onChange = {(evt) => this.props.updateEmail(evt.target.value)}
             />
           </p>
 
@@ -60,7 +60,7 @@ class ProcessPayment extends Component {
     super(props);
 
     this.state = {
-      name: '',
+      fullName: '',
       phone: '',
       address: '',
       email: ''
@@ -80,10 +80,11 @@ class ProcessPayment extends Component {
   componentWillMount() {
     if (this.props.user) {
       const profile = this.props.user.profile || null;
-      const name = profile.fullName || '';
+      const fullName = profile.fullName || '';
       const phone = (profile.phone && profile.phone.length) > 0 ? profile.phone[0] : '';
+      const email = (profile.email && profile.email.length) > 0 ? profile.email[0] : '';
       const address = profile.address || '';
-      this.setState({ name, phone, address })
+      this.setState({ fullName, email, phone, address })
     }
   }
 
@@ -107,7 +108,7 @@ class ProcessPayment extends Component {
               <button className="w3-button w3-bar-item w3-blue"> Cost at Delivery (COD) </button>
             </div>
 
-            <COD  name = {this.state.name}
+            <COD  fullName = {this.state.fullName}
                   phone = {this.state.phone}
                   address = {this.state.address}
                   email = {this.state.email}
@@ -128,8 +129,8 @@ class ProcessPayment extends Component {
     )
   }
 
-  updateName(name) {
-    this.setState({ name })
+  updateName(fullName) {
+    this.setState({ fullName })
   }
 
   updatePhone(phone) {

@@ -271,7 +271,8 @@ class Course extends Component {
                         items = {items}
         />
 
-        <ProcessPayment show = {this.state.showProcessPayment}
+        <ProcessPayment user = {this.props.user}
+                        show = {this.state.showProcessPayment}
                         cancel = {this.closeProcessPayment}
 
         />
