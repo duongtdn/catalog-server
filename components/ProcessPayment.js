@@ -71,21 +71,19 @@ class ProcessPayment extends Component {
       'updateName',
       'updatePhone',
       'updateEmail',
-      'updateAddress'
+      'updateAddress',
+      '_updateStateIfUserLoggedIn'
     ]
     methods.forEach( method => this[method] = this[method].bind(this) )
 
   }
 
   componentWillMount() {
-    if (this.props.user) {
-      const profile = this.props.user.profile || null;
-      const fullName = profile.fullName || '';
-      const phone = (profile.phone && profile.phone.length) > 0 ? profile.phone[0] : '';
-      const email = (profile.email && profile.email.length) > 0 ? profile.email[0] : '';
-      const address = profile.address || '';
-      this.setState({ fullName, email, phone, address })
-    }
+    this._updateStateIfUserLoggedIn(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    this._updateStateIfUserLoggedIn(props);
   }
 
   render() {
@@ -147,6 +145,17 @@ class ProcessPayment extends Component {
 
   next() {
     console.log(this.state)
+  }
+
+  _updateStateIfUserLoggedIn(props) {
+    if (props.user) {
+      const profile = props.user.profile || null;
+      const fullName = profile.fullName || '';
+      const phone = (profile.phone && profile.phone.length) > 0 ? profile.phone[0] : '';
+      const email = (profile.email && profile.email.length) > 0 ? profile.email[0] : '';
+      const address = profile.address || '';
+      this.setState({ fullName, email, phone, address })
+    }
   }
 
 }
