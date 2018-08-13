@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { bindUserProvider  } from '@stormgle/react-user'
 
-import { authGet } from '@stormgle/auth-client'
+import { authPost } from '@stormgle/auth-client'
 
 import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
@@ -312,7 +312,18 @@ class Course extends Component {
   purchase(billTo) {
     const items = this.state.items;
     const cart = {items, billTo}
-    console.log(cart)
+    authPost({
+      endPoint: 'http://localhost:3210/purchase',
+      service: 'sglearn',
+      data: {cart},
+      onSuccess: (data) => {
+        console.log('purchase success')
+        this.setState({ showProcessPayment: false })
+      },
+      onFailure: ({status, err}) => {
+        console.log(err)
+      }
+    })
   }
 
   _calculateOfferPrice() {
