@@ -67,7 +67,6 @@ class ProcessPayment extends Component {
     }
 
     const methods = [
-      'next',
       'updateName',
       'updatePhone',
       'updateEmail',
@@ -119,7 +118,7 @@ class ProcessPayment extends Component {
           </div>
 
           <footer className="w3-container" style={{paddingBottom: '16px'}} >
-            <button className="w3-button w3-blue w3-right" onClick={this.next}> Next </button>
+            <button className="w3-button w3-blue w3-right" onClick={() => this.props.next(this.state)}> Next </button>
           </footer>
 
         </div>
@@ -141,10 +140,6 @@ class ProcessPayment extends Component {
 
   updateEmail(email) {
     this.setState({ email })
-  }
-
-  next() {
-    console.log(this.state)
   }
 
   _updateStateIfUserLoggedIn(props) {

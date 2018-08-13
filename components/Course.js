@@ -3,6 +3,8 @@
 import React, { Component } from 'react'
 import { bindUserProvider  } from '@stormgle/react-user'
 
+import { authGet } from '@stormgle/auth-client'
+
 import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
 import ProcessPayment from './ProcessPayment'
@@ -54,7 +56,10 @@ class Course extends Component {
       showLoginRequiredPopup: false,
       showPurchaseOrder: false ,
       showLoginPanel: false,
-      showProcessPayment: false
+      showProcessPayment: false,
+
+      items: [],
+      billTo: null, // not use right now
     }
 
     const methods = [
@@ -64,7 +69,9 @@ class Course extends Component {
       'closePurchaseOrder',
       'onLoginPanelClosed',
       'openProcessPayment',
-      'closeProcessPayment'
+      'closeProcessPayment',
+      'purchase',
+      '_calculateOfferPrice'
     ]
     methods.forEach(method => this[method] = this[method].bind(this))
 
@@ -80,31 +87,7 @@ class Course extends Component {
     const course = this.props.data || {};
 
     // if client, recalculate price offer for user
-    const price = {
-      origin: course.price.value
-    }
-    if (this.state.isClient) {
-      let deduction = 0;
-      if (course.promote.discount) {
-        deduction += course.promote.discount;
-      }
-      if (this.props.user && 
-          this.props.user.promote && 
-          this.props.user.promote.course  && this.props.user.promote.course[course.courseId] ) {
-        deduction += this.props.user.promote.course[course.courseId];
-      }
-
-      const offer = price.origin - deduction;
-      price.offer = (offer > 0) ? offer : 0;
-      price.discount = Math.floor((deduction / price.origin) * 100)
-    }
-
-    const items = [];
-    items.push({
-      name: course.title,
-      code: course.courseId,
-      price: price
-    })
+    const price = this._calculateOfferPrice();
 
     return (
       <div className="sg-content">
@@ -268,12 +251,13 @@ class Course extends Component {
         <PurchaseOrder  show = {this.state.showPurchaseOrder} 
                         cancel = {this.closePurchaseOrder} 
                         next = {this.openProcessPayment}
-                        items = {items}
+                        items = {this.state.items}
         />
 
         <ProcessPayment user = {this.props.user}
                         show = {this.state.showProcessPayment}
                         cancel = {this.closeProcessPayment}
+                        next = {this.purchase}
 
         />
 
@@ -291,7 +275,14 @@ class Course extends Component {
 
   openPurchaseOrder() {
     if (this.props.user) {
-      this.setState({ showPurchaseOrder: true })
+      const course = this.props.data || {};
+      const items = [];
+      items.push({
+        name: course.title,
+        code: course.courseId,
+        price: this._calculateOfferPrice()
+      })
+      this.setState({ items, showPurchaseOrder: true })
     } else {
       this.openLoginRequiredPopup();
     }
@@ -316,6 +307,37 @@ class Course extends Component {
 
   closeProcessPayment() {
     this.setState({ showProcessPayment: false })
+  }
+
+  purchase(billTo) {
+    const items = this.state.items;
+    const cart = {items, billTo}
+    console.log(cart)
+  }
+
+  _calculateOfferPrice() {
+    const course = this.props.data || {};
+
+    // if client, recalculate price offer for user
+    const price = {
+      origin: course.price.value
+    }
+    if (this.state.isClient) {
+      let deduction = 0;
+      if (course.promote.discount) {
+        deduction += course.promote.discount;
+      }
+      if (this.props.user && 
+          this.props.user.promote && 
+          this.props.user.promote.course  && this.props.user.promote.course[course.courseId] ) {
+        deduction += this.props.user.promote.course[course.courseId];
+      }
+
+      const offer = price.origin - deduction;
+      price.offer = (offer > 0) ? offer : 0;
+      price.discount = Math.floor((deduction / price.origin) * 100)
+    }
+    return price;
   }
  
 }
