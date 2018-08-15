@@ -279,6 +279,7 @@ class Course extends Component {
       const items = [];
       items.push({
         name: course.title,
+        type: 'course',
         code: course.courseId,
         price: this._calculateOfferPrice()
       })
