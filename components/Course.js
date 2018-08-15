@@ -318,7 +318,7 @@ class Course extends Component {
       service: 'sglearn',
       data: {cart},
       onSuccess: (data) => {
-        console.log('purchase success')
+        console.log(data)
         this.setState({ showProcessPayment: false })
       },
       onFailure: ({status, err}) => {
