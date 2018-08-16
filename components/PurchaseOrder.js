@@ -15,9 +15,9 @@ class PurchaseOrder extends Component {
     let totalPrice = 0;
     this.props.items.forEach( item => {
       if (item.price.offer) {
-        totalPrice += item.price.offer;
+        totalPrice += (item.price.offer * item.quantity);
       } else {
-        totalPrice += item.price.origin;
+        totalPrice += (item.price.origin * item.quantity);
       }
     })
 

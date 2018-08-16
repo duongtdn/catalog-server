@@ -281,6 +281,7 @@ class Course extends Component {
         name: course.title,
         type: 'course',
         code: course.courseId,
+        quantity: 1,
         price: this._calculateOfferPrice()
       })
       this.setState({ items, showPurchaseOrder: true })
