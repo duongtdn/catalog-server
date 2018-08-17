@@ -319,7 +319,19 @@ class Course extends Component {
       service: 'sglearn',
       data: {cart},
       onSuccess: (data) => {
-        console.log(data)
+        const enroll = {};
+        if (data && data.items) {
+          data.items.forEach(item => {
+            if (item.type === 'course') {
+              enroll[item.code] = {
+                invoice: data.number,
+                status: data.status,
+                enrolledAt: data.issueAt
+              }
+            }
+          })
+        }        
+        this.props.user && this.props.user.update({enroll});
         this.setState({ showProcessPayment: false })
       },
       onFailure: ({status, err}) => {
