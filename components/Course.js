@@ -81,6 +81,13 @@ class Course extends Component {
   componentDidMount() {
     if (typeof window !== 'undefined') {
       this.setState({ isClient : true })
+      this._updateUserServiceData(this.props);
+    }
+  }
+
+  componentWillReceiveProps(props) {
+    if (typeof window !== 'undefined') {
+      this._updateUserServiceData(props);
     }
   }
 
@@ -378,6 +385,13 @@ class Course extends Component {
       price.discount = Math.floor((deduction / price.origin) * 100)
     }
     return price;
+  }
+
+  _updateUserServiceData(props) {
+    if (props.user) {
+      console.log('...get user enroll & promotion, then update localstorage using user.update')
+      console.log(props.user)
+    }
   }
  
 }
