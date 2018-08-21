@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { bindUserProvider  } from '@stormgle/react-user'
 
-import { authPost } from '@stormgle/auth-client'
+import { authPost, authGet } from '@stormgle/auth-client'
 
 import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
@@ -391,6 +391,16 @@ class Course extends Component {
     if (props.user) {
       console.log('...get user enroll & promotion, then update localstorage using user.update')
       console.log(props.user)
+      authGet({
+        endPoint: `http://localhost:3211/user/enroll`,
+        service: 'sglearn',
+        onSuccess: (data) => {
+         console.log(data)
+        },
+        onFailure: ({status, err}) => {
+          console.log(err)
+        }
+      })
     }
   }
  
