@@ -9,6 +9,7 @@ import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
 import ProcessPayment from './ProcessPayment'
 import { localeString } from '../lib/utils'
+import { server } from '../lib/env'
 
 class LoginRequiredPopup extends Component {
   constructor(props) {
@@ -333,7 +334,7 @@ class Course extends Component {
     const items = this.state.items;
     const cart = {items, billTo}
     authPost({
-      endPoint: 'http://localhost:3210/purchase',
+      endPoint: `${server.purchase}/purchase`,
       service: 'sglearn',
       data: {cart},
       onSuccess: (data) => {
@@ -392,7 +393,7 @@ class Course extends Component {
       console.log('...get user enroll & promotion, then update localstorage using user.update')
       console.log(props.user)
       authGet({
-        endPoint: `http://localhost:3211/user/enroll`,
+        endPoint: `${server.enroll}/user/enroll`,
         service: 'sglearn',
         onSuccess: (data) => {
          console.log(data)
