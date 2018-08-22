@@ -80,9 +80,10 @@ class Course extends Component {
   }
 
   componentDidMount() {
-    if (typeof window !== 'undefined') {
-      this.setState({ isClient : true })
-      this._updateUserServiceData(this.props);
+    if (typeof window !== 'undefined') {     
+      this._updateUserServiceData(this.props, err => {
+        this.setState({ isClient : true })
+      });
     }
   }
 
@@ -345,7 +346,7 @@ class Course extends Component {
               enroll[item.code] = {
                 invoice: data.number,
                 status: data.status,
-                enrolledAt: data.issueAt
+                enrollAt: data.issueAt
               }
             }
           })
@@ -388,7 +389,7 @@ class Course extends Component {
     return price;
   }
 
-  _updateUserServiceData(props) {
+  _updateUserServiceData(props, done) {
     if (props.user) {
       console.log('...get user enroll & promotion, then update localstorage using user.update')
       console.log(props.user)
@@ -396,12 +397,32 @@ class Course extends Component {
         endPoint: `${server.enroll}/user/enroll`,
         service: 'sglearn',
         onSuccess: (data) => {
-         console.log(data)
+          const enroll = this._convertEnrollListToObject(data)
+          if (enroll) {
+            props.user.update(enroll);
+            done && done(null);
+          }
         },
         onFailure: ({status, err}) => {
-          console.log(err)
+          done && done(err)
         }
       })
+    }
+  }
+
+  _convertEnrollListToObject(enrolls) {
+    if (enrolls) {
+      const obj = {};
+      enrolls.forEach( enroll => {
+        obj[enroll.courseId] = {
+          invoice: enroll.invoice,
+          status: enroll.status,
+          enrollAt: enroll.enrollAt
+        }
+      })
+      return obj
+    } else {
+      return null
     }
   }
  
