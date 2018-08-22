@@ -2,9 +2,11 @@
 
 import React, { Component } from 'react'
 
-import { logout } from '@stormgle/auth-client'
+import auth, { logout } from '@stormgle/auth-client'
 import { bindUserProvider  } from '@stormgle/react-user'
 import LoginPanel from './LoginPanel'
+
+auth.use({cookie: 'sglearn'})
 
 class Sidebar extends Component {
   constructor(props) {
