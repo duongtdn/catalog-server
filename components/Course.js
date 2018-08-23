@@ -391,8 +391,6 @@ class Course extends Component {
 
   _updateUserServiceData(props, done) {
     if (props.user) {
-      console.log('...get user enroll & promotion, then update localstorage using user.update')
-      console.log(props.user)
       authGet({
         endPoint: `${server.enroll}/user/enroll`,
         service: 'sglearn',
