@@ -2,9 +2,7 @@
 
 require('dotenv').config()
 
-const express = require('express')
 const api = require('../dist/api')
-const cors = require('cors')
 
 /* create api */
 const DatabaseAbstractor = require("database-abstractor")
@@ -29,9 +27,14 @@ course.use(require('coursedb-dynamodb-driver')({
 api.useDatabase({ catalog, course })
 
 /* create express app from api */
+const express = require('express')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+
 const app = express();
 
 app.use(cors());
+app.use(cookieParser())
 
 app.use('/', api);
 

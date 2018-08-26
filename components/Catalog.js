@@ -14,7 +14,7 @@ class Catalog extends Component {
     const list = this.props.data.list || {};
     return (
       <div className="sg-content">     
-        <Header />  
+        <Header user = {this.props.user} />  
         <div className="w3-container w3-margin">                   
           {/* render list of catalogs */}
           {

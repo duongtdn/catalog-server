@@ -98,10 +98,12 @@ class Course extends Component {
 
     // if client, recalculate price offer for user
     const price = this._calculateOfferPrice();
-
     return (
       <div className="sg-content">
-        <Header showLoginPanel = {this.state.showLoginPanel} onLoginPanelClosed = {this.onLoginPanelClosed} />
+        <Header showLoginPanel = {this.state.showLoginPanel} 
+                onLoginPanelClosed = {this.onLoginPanelClosed} 
+                user = {this.props.user} 
+        />
         
         {/* render course detail */}
         <div className="w3-container w3-margin">

@@ -28,26 +28,28 @@
     "body-parser": "^1.18.2",
     "catalogdb-dynamodb-driver": "^1.0.0",
     "catalogdb-test-helper": "^1.0.0",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "coursedb-dynamodb-driver": "^1.0.0",
     "coursedb-test-helper": "^1.0.0",
-    "enrolldb-dynamodb-driver": "^1.0.0",
-    "enrolldb-test-helper": "^1.0.0",
-    "cors": "^2.8.4",
     "database-abstractor": "^1.0.0",
     "database-test-helper": "^1.0.0",
     "dotenv": "^5.0.1",
+    "enrolldb-dynamodb-driver": "^1.0.0",
+    "enrolldb-test-helper": "^1.0.0",
     "express": "^4.16.2",
     "mocha": "^5.0.1",
     "webpack": "^4.16.0",
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
-    "@stormgle/jtoken-util": "^1.0.0",
     "@stormgle/auth-client": "^1.2.0",
+    "@stormgle/jtoken-util": "^1.0.0",
     "@stormgle/react-user": "^1.0.0",
     "express-api-binder": "^1.1.0",
-    "simple-json-xhr": "^1.2.0",
+    "jsonwebtoken": "^8.3.0",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "simple-json-xhr": "^1.2.0"
   }
 }
