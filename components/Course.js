@@ -80,9 +80,7 @@ class Course extends Component {
 
   componentDidMount() {
     if (typeof window !== 'undefined') {     
-      this._updateUserServiceData(this.props, err => {
-        if (err) onsole.log(err)
-      });
+      this._updateUserServiceData(this.props);
     }
   }
 
@@ -393,7 +391,7 @@ class Course extends Component {
         onSuccess: (data) => {
           const enroll = this._convertEnrollListToObject(data)
           if (enroll) {
-            props.user.update(enroll);
+            props.user.update({enroll});
             done && done(null);
           }
         },
