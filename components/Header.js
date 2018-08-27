@@ -22,7 +22,7 @@ class Sidebar extends Component {
         <span className="w3-button w3-display-topright w3-text-red" onClick={this.props.close}>X</span>
 
         {
-          (this.props.isClient && this.props.user)? 
+          (this.props.user)? 
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'center', paddingBottom: '16px'}} > 
               <div className="w3-bar-item" style={{textAlign: 'center'}}> {this.props.user.displayName || this.props.user.username} </div>
               <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.props.logout}> Logout </button>
@@ -58,12 +58,6 @@ class Header extends Component {
 
   }
 
-  componentDidMount() {
-    if (typeof window !== 'undefined') {
-      this.setState({ isClient : true })
-    }
-  }
-
   componentWillReceiveProps(props) {
     if (props.showLoginPanel) {      
      this.login(props.showLoginPanel)
@@ -86,13 +80,12 @@ class Header extends Component {
                   login={this.login} 
                   logout={this.logout}
                   user={this.props.user}
-                  isClient={this.state.isClient} 
         />
 
         {/* render for medium and large device */}
 
         {
-          (this.state.isClient && this.props.user)? 
+          (this.props.user)? 
             <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px', minWidth: '300px'}}> 
               <div className="w3-bar-item"> {this.props.user.displayName || this.props.user.username} </div>
               <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.logout}> Logout </button>
