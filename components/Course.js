@@ -53,7 +53,6 @@ class Course extends Component {
     super(props);
 
     this.state = { 
-      isClient: false,
       showLoginRequiredPopup: false,
       showPurchaseOrder: false ,
       showLoginPanel: false,
@@ -82,7 +81,7 @@ class Course extends Component {
   componentDidMount() {
     if (typeof window !== 'undefined') {     
       this._updateUserServiceData(this.props, err => {
-        this.setState({ isClient : true })
+        if (err) onsole.log(err)
       });
     }
   }
@@ -157,7 +156,7 @@ class Course extends Component {
                       </button>
                     </div>
                   :
-                    (this.state.isClient && price.discount) ?
+                    (price.discount) ?
                       <div>
                         <button className="w3-button w3-green w3-card-4" onClick = {this.openPurchaseOrder} > 
                           Enroll Now (Save {price.discount}%) 
@@ -185,11 +184,6 @@ class Course extends Component {
                               {localeString(price.origin, '.')} {'\u20ab'}
                             </span>                           
                           </p>
-                          {
-                            this.state.isClient === false ?
-                              <p> Calculating special offer for you... </p>
-                              : null
-                          }
                       </div>
                 }
 
@@ -373,21 +367,21 @@ class Course extends Component {
     const price = {
       origin: course.price.value
     }
-    if (this.state.isClient) {
-      let deduction = 0;
-      if (course.promote.discount) {
-        deduction += course.promote.discount;
-      }
-      if (this.props.user && 
-          this.props.user.promote && 
-          this.props.user.promote.course  && this.props.user.promote.course[course.courseId] ) {
-        deduction += this.props.user.promote.course[course.courseId];
-      }
 
-      const offer = price.origin - deduction;
-      price.offer = (offer > 0) ? offer : 0;
-      price.discount = Math.floor((deduction / price.origin) * 100)
+    let deduction = 0;
+    if (course.promote.discount) {
+      deduction += course.promote.discount;
     }
+    if (this.props.user && 
+        this.props.user.promote && 
+        this.props.user.promote.course  && this.props.user.promote.course[course.courseId] ) {
+      deduction += this.props.user.promote.course[course.courseId];
+    }
+
+    const offer = price.origin - deduction;
+    price.offer = (offer > 0) ? offer : 0;
+    price.discount = Math.floor((deduction / price.origin) * 100)
+
     return price;
   }
 
