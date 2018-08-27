@@ -140,7 +140,7 @@ class Course extends Component {
               {/* Enroll button */}
               <div style={{marginBottom: '32px'}} >
                 {
-                  (this.state.isClient && this.props.user && this.props.user.enroll && this.props.user.enroll[course.courseId]) ?
+                  (this.props.user && this.props.user.enroll && this.props.user.enroll[course.courseId]) ?
                     <p style={{fontStyle: 'italic'}} > You have enrolled this course </p>
                   :
                     course.enroll > 100 ?
@@ -150,7 +150,7 @@ class Course extends Component {
 
                 {/* display enroll button with price offer & discount*/}
                 {
-                  (this.state.isClient && this.props.user && this.props.user.enroll && this.props.user.enroll[course.courseId]) ?
+                  (this.props.user && this.props.user.enroll && this.props.user.enroll[course.courseId]) ?
                     <div>
                        <button className="w3-button w3-green w3-card-4" onClick = {() => this.goToStudyPage(course.courseId)} > 
                                 Let's study now 
