@@ -79,20 +79,17 @@ class Course extends Component {
   }
 
   componentDidMount() {
-    if (typeof window !== 'undefined') {     
-      this._updateUserServiceData(this.props);
-    }
+    this._updateUserServiceData(this.props);
   }
 
   componentWillReceiveProps(props) {
-    if (typeof window !== 'undefined') {
+    if (!this.props.user && props.user ) {
       this._updateUserServiceData(props);
     }
   }
 
   render() {
     const course = this.props.data || {};
-
     // if client, recalculate price offer for user
     const price = this._calculateOfferPrice();
     return (
@@ -344,7 +341,7 @@ class Course extends Component {
               }
             }
           })
-        }        
+        }       
         this.props.user && this.props.user.update({enroll});
         this.setState({ showProcessPayment: false })
       },
@@ -384,7 +381,7 @@ class Course extends Component {
   }
 
   _updateUserServiceData(props, done) {
-    if (props.user) {
+    if (typeof window !== 'undefined' && props.user) {
       authGet({
         endPoint: `${server.enroll}/user/enroll`,
         service: 'sglearn',
