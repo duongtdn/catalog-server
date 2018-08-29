@@ -7,7 +7,8 @@ import { authPost, authGet } from '@stormgle/auth-client'
 
 import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
-import ProcessPayment from './ProcessPayment'
+// import ProcessPayment from './ProcessPayment'
+import WaitingScreen from './WaitingScreen'
 import { localeString } from '../lib/utils'
 import { server } from '../lib/env'
 
@@ -56,7 +57,8 @@ class Course extends Component {
       showLoginRequiredPopup: false,
       showPurchaseOrder: false ,
       showLoginPanel: false,
-      showProcessPayment: false,
+      // showProcessPayment: false,
+      showWaitingScreen: false,
 
       items: [],
       billTo: null, // not use right now
@@ -68,8 +70,8 @@ class Course extends Component {
       'openPurchaseOrder',
       'closePurchaseOrder',
       'onLoginPanelClosed',
-      'openProcessPayment',
-      'closeProcessPayment',
+      // 'openProcessPayment',
+      // 'closeProcessPayment',
       'purchase',
       'goToStudyPage',
       '_calculateOfferPrice'
@@ -261,15 +263,19 @@ class Course extends Component {
 
         <PurchaseOrder  show = {this.state.showPurchaseOrder} 
                         cancel = {this.closePurchaseOrder} 
-                        next = {this.openProcessPayment}
+                        // next = {this.openProcessPayment}
+                        next = {this.purchase}
                         items = {this.state.items}
         />
 
-        <ProcessPayment user = {this.props.user}
+        {/* <ProcessPayment user = {this.props.user}
                         show = {this.state.showProcessPayment}
                         cancel = {this.closeProcessPayment}
-                        next = {this.purchase}
+                        next = {this.purchase} */}
 
+        />
+
+        <WaitingScreen show = {this.state.showWaitingScreen}
         />
 
       </div>
@@ -314,15 +320,16 @@ class Course extends Component {
     this.setState({ showLoginRequiredPopup : false, showLoginPanel: route })
   }
 
-  openProcessPayment() {
-    this.setState({ showPurchaseOrder: false, showProcessPayment: true })
-  }
+  // openProcessPayment() {
+  //   this.setState({ showPurchaseOrder: false, showProcessPayment: true })
+  // }
 
-  closeProcessPayment() {
-    this.setState({ showProcessPayment: false })
-  }
+  // closeProcessPayment() {
+  //   this.setState({ showProcessPayment: false })
+  // }
 
   purchase(billTo) {
+    this.setState({ showWaitingScreen: true })
     const items = this.state.items;
     const cart = {items, billTo}
     authPost({
@@ -343,7 +350,7 @@ class Course extends Component {
           })
         }       
         this.props.user && this.props.user.update({enroll});
-        this.setState({ showProcessPayment: false })
+        this.setState({ showPurchaseOrder: false, showWaitingScreen: false })
       },
       onFailure: ({status, err}) => {
         console.log(err)
