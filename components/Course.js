@@ -81,11 +81,15 @@ class Course extends Component {
   }
 
   componentDidMount() {
-    this._updateUserServiceData(this.props);
+    if (typeof window !== 'undefined' && this.props.user) {
+      this.setBillTo(this.props);
+      this._updateUserServiceData(this.props);
+    }
   }
 
   componentWillReceiveProps(props) {
     if (!this.props.user && props.user ) {
+      this.setBillTo(props);
       this._updateUserServiceData(props);
     }
   }
@@ -328,9 +332,22 @@ class Course extends Component {
   //   this.setState({ showProcessPayment: false })
   // }
 
-  purchase(billTo) {
+  setBillTo(props) {
+    const profile = props.user.profile;
+    const billTo = {
+      fullName : profile.fullName || '',
+      phone : (profile.phone && profile.phone.length) > 0 ? profile.phone[0] : '',
+      email : (profile.email && profile.email.length) > 0 ? profile.email[0] : '',
+      address : profile.address || ''
+    }
+    this.setState({ billTo })
+    return this;
+  }
+
+  purchase() {
     this.setState({ showWaitingScreen: true })
     const items = this.state.items;
+    const billTo = this.state.billTo;
     const cart = {items, billTo}
     authPost({
       endPoint: `${server.purchase}/purchase`,
@@ -388,22 +405,20 @@ class Course extends Component {
   }
 
   _updateUserServiceData(props, done) {
-    if (typeof window !== 'undefined' && props.user) {
-      authGet({
-        endPoint: `${server.enroll}/user/enroll`,
-        service: 'sglearn',
-        onSuccess: (data) => {
-          const enroll = this._convertEnrollListToObject(data)
-          if (enroll) {
-            props.user.update({enroll});
-            done && done(null);
-          }
-        },
-        onFailure: ({status, err}) => {
-          done && done(err)
+    authGet({
+      endPoint: `${server.enroll}/user/enroll`,
+      service: 'sglearn',
+      onSuccess: (data) => {
+        const enroll = this._convertEnrollListToObject(data)
+        if (enroll) {
+          props.user.update({enroll});
+          done && done(null);
         }
-      })
-    }
+      },
+      onFailure: ({status, err}) => {
+        done && done(err)
+      }
+    })
   }
 
   _convertEnrollListToObject(enrolls) {
