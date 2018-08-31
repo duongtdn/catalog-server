@@ -78,7 +78,8 @@ class BankTransfer extends Component {
             </p>
 
             <p>
-              <textarea style={{width:'100%'}} value={this.state.content} disabled> </textarea>
+              <label> Content </label>
+              <textarea style={{width:'100%'}} value={this.state.content} disabled />
             </p>
 
           </div>
