@@ -46,16 +46,17 @@ class BankTransfer extends Component {
           <header className="w3-container "> 
             <span onClick={this.props.cancel} 
                   className="w3-button w3-display-topright w3-red">&times;</span>
-            <h2 style={{fontWeight: 'bold'}} > Success </h2>
+            <h2 className="w3-text-green" style={{fontWeight: 'bold'}} > Success </h2>
           </header>
 
-           <br />
-
           <div className="w3-container" style={{marginBottom: '32px'}} >
-            <p> You have enrolled to this course. Please complete the payment process by a wire transfer as below information </p>
+          <p className="w3-large w3-text-dark-grey" style={{fontWeight: 'bold'}}> Thank you for using our service </p>
+            <p className="w3-large w3-text-dark-grey"> Please complete the payment process by a wire transfer as below information </p>
+
+            <hr />
 
             <p>
-              <label>Bank</label>
+              <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}} >Bank</label>
               <select  className="w3-input w3-border" type="text" name='option' onChange={this.selectBank} >
                 <option value="" disabled > Choose a bank for transfer </option>
                 {
@@ -67,19 +68,17 @@ class BankTransfer extends Component {
             </p>
             
             <p>
-              <label>Account No.</label>
+              <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}}>Account No.</label>
               <input className="w3-input w3-border" type="text" value={banks[this.state.bank].account} disabled/>
             </p>
 
-            <hr />
-
             <p>
-              <label> Amount: <span className='w3-text-red' style={{fontWeight: 'bold'}}> {localeString(this.state.amount)} {'\u20ab'} </span></label>
+              <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}}> Amount: <span className='w3-text-red' style={{fontWeight: 'bold'}}> {localeString(this.state.amount)} {'\u20ab'} </span></label>
             </p>
 
             <p>
-              <label> Content </label>
-              <textarea style={{width:'100%'}} value={this.state.content} disabled />
+              <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}}> Content </label>
+              <textarea className="w3-large" style={{width:'100%'}} value={this.state.content} disabled />
             </p>
 
           </div>
