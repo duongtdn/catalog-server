@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react'
 
+import { localeString } from '../lib/utils'
+
 const banks = {
   tcb: {
     name: 'Techcombank HCMC',
@@ -52,8 +54,6 @@ class BankTransfer extends Component {
           <div className="w3-container" style={{marginBottom: '32px'}} >
             <p> You have enrolled to this course. Please complete the payment process by a wire transfer as below information </p>
 
-            <br />
-
             <p>
               <label>Bank</label>
               <select  className="w3-input w3-border" type="text" name='option' onChange={this.selectBank} >
@@ -74,7 +74,7 @@ class BankTransfer extends Component {
             <hr />
 
             <p>
-              <label> Amount: <span className='w3-text-red' style={{fontWeight: 'bold'}}> 500,000 </span></label>
+              <label> Amount: <span className='w3-text-red' style={{fontWeight: 'bold'}}> {localeString(this.state.amount)} {'\u20ab'} </span></label>
             </p>
 
             <p>
@@ -100,9 +100,12 @@ class BankTransfer extends Component {
     this.setState({bank})
   }
 
-  prepareTransferContent() {
-    const content = 'tester@team.com Payment for invoice number: 1881321'
-    this.setState({content})
+  prepareTransferContent(props) {
+    const invoice = props.invoice || {number: '', totalPrice: 0};
+    const user = props.user || {profile: {fullName: ''}};
+    const content = `${user.profile.fullName} pay for invoice number: ${invoice.number}`
+    const amount = invoice.totalPrice;
+    this.setState({content, amount})
   }
 }
 
