@@ -9,6 +9,7 @@ import Header from './Header'
 import PurchaseOrder from './PurchaseOrder'
 // import ProcessPayment from './ProcessPayment'
 import WaitingScreen from './WaitingScreen'
+import BankTranfer from './BankTransfer'
 import { localeString } from '../lib/utils'
 import { server } from '../lib/env'
 
@@ -59,6 +60,7 @@ class Course extends Component {
       showLoginPanel: false,
       // showProcessPayment: false,
       showWaitingScreen: false,
+      showBankTransfer: false,
 
       items: [],
       billTo: null, // not use right now
@@ -268,7 +270,8 @@ class Course extends Component {
         <PurchaseOrder  show = {this.state.showPurchaseOrder} 
                         cancel = {this.closePurchaseOrder} 
                         // next = {this.openProcessPayment}
-                        next = {this.purchase}
+                        // next = {this.purchase}
+                        next = {() => {this.setState({showBankTransfer : true})}}
                         items = {this.state.items}
         />
 
@@ -280,6 +283,10 @@ class Course extends Component {
         />
 
         <WaitingScreen show = {this.state.showWaitingScreen}
+        />
+
+        <BankTranfer  show = {this.state.showBankTransfer}
+                      cancel = {() => {this.setState({showBankTransfer : false})}}
         />
 
       </div>
