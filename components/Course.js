@@ -270,8 +270,7 @@ class Course extends Component {
         <PurchaseOrder  show = {this.state.showPurchaseOrder} 
                         cancel = {this.closePurchaseOrder} 
                         // next = {this.openProcessPayment}
-                        // next = {this.purchase}
-                        next = {() => {this.setState({showBankTransfer : true})}}
+                        next = {this.purchase}
                         items = {this.state.items}
         />
 
@@ -287,6 +286,8 @@ class Course extends Component {
 
         <BankTranfer  show = {this.state.showBankTransfer}
                       cancel = {() => {this.setState({showBankTransfer : false})}}
+                      user={this.props.user}
+                      invoice={this.state.invoice}
         />
 
       </div>
@@ -374,7 +375,12 @@ class Course extends Component {
           })
         }       
         this.props.user && this.props.user.update({enroll});
-        this.setState({ showPurchaseOrder: false, showWaitingScreen: false })
+        this.setState({
+          invoice: data, 
+          showPurchaseOrder: false, 
+          showWaitingScreen: false, 
+          showBankTransfer : true 
+        })
       },
       onFailure: ({status, err}) => {
         console.log(err)
