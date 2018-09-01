@@ -50,7 +50,7 @@ class BankTransfer extends Component {
           </header>
 
           <div className="w3-container" style={{marginBottom: '32px'}} >
-          <p className="w3-large w3-text-dark-grey" style={{fontWeight: 'bold'}}> Thank you for using our service </p>
+            <p className="w3-large w3-text-dark-grey" style={{fontWeight: 'bold'}}> Thank you for using our service </p>
             <p className="w3-large w3-text-dark-grey"> Please complete the payment process by a wire transfer as below information </p>
 
             <hr />
