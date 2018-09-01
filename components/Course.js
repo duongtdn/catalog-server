@@ -10,6 +10,7 @@ import PurchaseOrder from './PurchaseOrder'
 // import ProcessPayment from './ProcessPayment'
 import WaitingScreen from './WaitingScreen'
 import BankTranfer from './BankTransfer'
+import Error from './Error'
 import { localeString } from '../lib/utils'
 import { server } from '../lib/env'
 
@@ -290,6 +291,10 @@ class Course extends Component {
                       invoice={this.state.invoice}
         />
 
+        <Error  show = {this.state.showError}
+                      cancel = {() => {this.setState({showError : false})}}
+        />
+
       </div>
     )
   }
@@ -390,7 +395,11 @@ class Course extends Component {
         })
       },
       onFailure: ({status, err}) => {
-        console.log(err)
+        this.setState({ 
+          showPurchaseOrder: false,
+          showWaitingScreen: false, 
+          showError: true 
+        })
       }
     })
   }
