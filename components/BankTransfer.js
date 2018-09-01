@@ -102,7 +102,7 @@ class BankTransfer extends Component {
   prepareTransferContent(props) {
     const invoice = props.invoice || {number: '', subTotal: 0};
     const user = props.user || {profile: {fullName: ''}};
-    const content = `${user.profile.fullName} pay for invoice number: ${invoice.number}`
+    const content = `${user.profile.fullName || ''} pay for invoice number: ${invoice.number}`
     const amount = invoice.subTotal;
     this.setState({content, amount})
   }

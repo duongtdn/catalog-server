@@ -342,11 +342,18 @@ class Course extends Component {
 
   setBillTo(props) {
     const profile = props.user.profile;
-    const billTo = {
-      fullName : profile.fullName || '',
-      phone : (profile.phone && profile.phone.length) > 0 ? profile.phone[0] : '',
-      email : (profile.email && profile.email.length) > 0 ? profile.email[0] : '',
-      address : profile.address || ''
+    const billTo = {}
+    if (profile.fullName && profile.fullName.length > 0) {
+      billTo.fullName = profile.fullName;
+    }
+    if (profile.phone && profile.phone[0] && profile.phone[0].length > 0) {
+      billTo.phone = profile.phone[0];
+    }
+    if (profile.email && profile.email[0] && profile.email[0].length > 0) {
+      billTo.email = profile.email[0];
+    }
+    if (profile.address && profile.address.length > 0) {
+      billTo.address = profile.address;
     }
     this.setState({ billTo })
     return this;
