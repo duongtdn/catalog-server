@@ -12,12 +12,12 @@ class PurchaseOrder extends Component {
   render() {
     const display = this.props.show ? 'block' : 'none';
     
-    let totalPrice = 0;
+    let subTotal = 0;
     this.props.items.forEach( item => {
       if (item.price.offer) {
-        totalPrice += (item.price.offer * item.quantity);
+        subTotal += (item.price.offer * item.quantity);
       } else {
-        totalPrice += (item.price.origin * item.quantity);
+        subTotal += (item.price.origin * item.quantity);
       }
     })
 
@@ -68,7 +68,7 @@ class PurchaseOrder extends Component {
               <tfoot>
                 <tr className="w3-pale-blue">
                   <th className = "w3-border-right">Total</th>
-                  <th className="w3-text-orange" style={{textAlign: 'right'}} > {localeString(totalPrice)} </th>
+                  <th className="w3-text-orange" style={{textAlign: 'right'}} > {localeString(subTotal)} </th>
                 </tr>
               </tfoot>
             </table>
