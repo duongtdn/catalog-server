@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 
-import { localeString } from '../lib/utils'
+import { localeString } from '../../lib/utils'
 
 const banks = {
   tcb: {

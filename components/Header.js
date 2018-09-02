@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 
 import auth, { logout } from '@stormgle/auth-client'
 import { bindUserProvider  } from '@stormgle/react-user'
-import LoginPanel from './LoginPanel'
+import LoginPanel from './popup/LoginPanel'
 
 auth.use({cookie: 'sglearn'})
 
