@@ -1,13 +1,14 @@
 "use strict"
 
+const { verifyToken } = require('@stormgle/jtoken-util')
+
 const htmlTemplate = require('../../../lib/html')
 
-function authen(db) {
-  return function(req, res, next) {
-    
-    next()
-  }
-}
+const secret = process.env.AUTH_KEY_SGLEARN;
+
+// function authen() {
+//   return verifyToken(secret);
+// }
 
 function final() {
   return function(req, res) {
@@ -18,4 +19,4 @@ function final() {
   }
 }
 
-module.exports = [authen, final]
+module.exports = [final]
