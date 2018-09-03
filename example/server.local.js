@@ -39,6 +39,11 @@ db.start().add({catalogdb, coursedb}).init(() => {
         res.sendFile(path.resolve(`${__dirname}/../dist/course.js`))
       }, 1000)            
     })
+    .get('/me/script/bundle.js', (req, res) => {
+      setTimeout(() => {
+        res.sendFile(path.resolve(`${__dirname}/../dist/enrolled.js`))
+      }, 0)            
+    })
 
   const httpServer = require('http').createServer(app);
   httpServer.listen(PORT, function() {
