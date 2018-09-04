@@ -13,8 +13,17 @@ class EnrolledCourses extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    this._createEnrolledList(this.props)
+  }
+
+  componentWillReceiveProps(props) {
+    this._createEnrolledList(props)
+  }
+
   render() {
     if (this.props.user) {
+      console.log(this.props.user)
       return (
         <div className="sg-content">
           <Header user = {this.props.user} />
@@ -39,6 +48,20 @@ class EnrolledCourses extends Component {
     }
    
   }
+
+  _createEnrolledList(props) {
+    if (!props.user) {
+      return [];
+    }
+    const user = props.user;
+    const enrolled = [];
+    const courseIds = [];
+    for(let courseId in user.enroll) {
+      courseIds.push(courseId)
+    }
+    console.log(courseIds)
+  }
+
 }
 
 module.exports = bindUserProvider(EnrolledCourses)
