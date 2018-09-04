@@ -14,16 +14,30 @@ class EnrolledCourses extends Component {
   }
 
   render() {
-    return (
-      <div className="sg-content">
-        <Header user = {this.props.user} />
-
-        <div className="w3-container w3-margin">
-          <h2> Your Enrolled courses </h2>
+    if (this.props.user) {
+      return (
+        <div className="sg-content">
+          <Header user = {this.props.user} />
+  
+          <div className="w3-container w3-margin">
+            <h2> Your Enrolled courses </h2>
+          </div>
+  
         </div>
-
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div className="sg-content">
+          <Header  />
+  
+          <div className="w3-container w3-margin">
+            <h3> You need to login to see this page </h3>
+          </div>
+         
+        </div>
+      )
+    }
+   
   }
 }
 
