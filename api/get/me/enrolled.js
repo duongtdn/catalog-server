@@ -15,7 +15,7 @@ function final() {
     const title = process.env.PAGE_TITLE || 'Page Title';
     const style = process.env.PAGE_STYLE || 'style/style.css'
     res.writeHead( 200, { "Content-Type": "text/html" } );
-    res.end( htmlTemplate( {title, script: 'script/bundle.js', style} ) )
+    res.end( htmlTemplate( {title, script: process.env.ENROLL_PAGE_SCRIPT, style} ) )
   }
 }
 

@@ -17,5 +17,5 @@ function getCourse(db) {
   }
 }
 
-module.exports = [getCourse, render({Component: Course, script: 'script/bundle.js'})]
+module.exports = [getCourse, render({Component: Course, script: process.env.COURSE_PAGE_SCRIPT})]
  

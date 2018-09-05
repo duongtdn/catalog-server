@@ -42,5 +42,5 @@ function getCatalog(db) {
   }
 }
 
-module.exports = [getCatalog, render({Component: Catalog, script: 'script/bundle.js'})]
+module.exports = [getCatalog, render({Component: Catalog, script: process.env.CATALOG_PAGE_SCRIPT})]
  
