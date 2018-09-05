@@ -4,8 +4,10 @@
 
 import React, { Component } from 'react'
 
+import { postJSON } from 'simple-json-xhr'
 import { bindUserProvider  } from '@stormgle/react-user'
 
+import { server } from '../lib/env'
 import Header from './Header'
 
 class EnrolledCourses extends Component {
@@ -54,12 +56,30 @@ class EnrolledCourses extends Component {
       return [];
     }
     const user = props.user;
-    const enrolled = [];
+    
     const courseIds = [];
     for(let courseId in user.enroll) {
       courseIds.push(courseId)
     }
     console.log(courseIds)
+    postJSON({
+      endPoint: `${server.course}/query`,
+      data: {courses: courseIds},
+      onSuccess: ({status, data}) => {
+        const enrolled = this._matchCourseWithEnrolled(user.enroll, data.data)
+        console.log(enrolled)
+      },
+      onFailure: ({status, err}) => {
+        console.log(err)
+      }
+    })
+  }
+
+  _matchCourseWithEnrolled(enrolledList, courses) {
+    return courses.map(course => {
+      const enroll = enrolledList[course.courseId]
+      return {...course, ...enroll}
+    })
   }
 
 }
