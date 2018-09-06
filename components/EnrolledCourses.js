@@ -12,7 +12,9 @@ import Header from './Header'
 
 class EnrolledCourses extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+
+    this.state = { enrolled: null }
   }
 
   componentDidMount() {
@@ -24,14 +26,44 @@ class EnrolledCourses extends Component {
   }
 
   render() {
+    console.log(this.state.enrolled)
     if (this.props.user) {
-      console.log(this.props.user)
       return (
         <div className="sg-content">
           <Header user = {this.props.user} />
   
           <div className="w3-container w3-margin">
-            <h2> Your Enrolled courses </h2>
+
+          {/* just a sentence */}
+          {
+            this.state.enrolled ?
+              <h3> 
+                You have {this.state.enrolled.filter(e=> e.status === 'billing').length} new courses
+              </h3>
+              :
+              <h3> You don't have any enrolled course yet </h3> 
+          }  
+
+          {/* enrolled list */}
+          <ul className="w3-ul"> {
+            this.state.enrolled && this.state.enrolled.map(e => {
+              const d = new Date(parseInt(e.enrollAt))
+              return (
+                <li key={e.invoice} className="w3-bar" >
+                  <div className="w3-bar-item">
+                    <p className="w3-large" style={{fontWeight: 'bold'}} > 
+                      {e.title} <span style={{fontWeight: 'normal', fontStyle:'italic'}}> ({e.level}) </span>
+                    </p>
+                    <p className="w3-text-grey"> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
+                  </div>
+                  <div className="w3-bar-item w3-right">
+                    <button className="w3-button w3-border"> Study Now </button> 
+                  </div> 
+                </li>
+              )
+            })
+          } </ul>
+
           </div>
   
         </div>
@@ -61,13 +93,12 @@ class EnrolledCourses extends Component {
     for(let courseId in user.enroll) {
       courseIds.push(courseId)
     }
-    console.log(courseIds)
     postJSON({
       endPoint: `${server.course}/query`,
       data: {courses: courseIds},
       onSuccess: ({status, data}) => {
-        const enrolled = this._matchCourseWithEnrolled(user.enroll, data.data)
-        console.log(enrolled)
+        const enrolled = this._matchCourseWithEnrolled(user.enroll, data.data);
+        this.setState({ enrolled })
       },
       onFailure: ({status, err}) => {
         console.log(err)
