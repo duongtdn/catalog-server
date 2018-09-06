@@ -47,18 +47,30 @@ class EnrolledCourses extends Component {
           {/* enrolled list */}
           <ul className="w3-ul"> {
             this.state.enrolled && this.state.enrolled.map(e => {
-              const d = new Date(parseInt(e.enrollAt))
+              const d = new Date(parseInt(e.enrollAt));
+              const tag = (e.status==='billing') ? 
+                            <span className="w3-tag w3-small w3-red" style={{fontWeight: 'normal'}}> New </span>
+                            :
+                            (e.status==='complete') ? 
+                              <span className="w3-tag w3-small w3-green" style={{fontWeight: 'normal'}}> Complete </span>
+                              :
+                              <span className="w3-tag w3-small w3-orange" style={{fontWeight: 'normal'}}> Active </span>
               return (
                 <li key={e.invoice} className="w3-bar" >
                   <div className="w3-bar-item">
-                    <p className="w3-large curdor-pointer" style={{fontWeight: 'bold'}} > 
+                    <p className="w3-large cursor-pointer" style={{fontWeight: 'bold'}} > 
+                      {tag} <br />
                       {e.title} <span style={{fontWeight: 'normal', fontStyle:'italic'}}> ({e.level}) </span>
                     </p>
                     <p className="w3-text-grey"> {e.snippet} </p>
                     <p className="w3-text-grey" style={{fontStyle:'italic'}}> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
                   </div>
-                  <div className="w3-bar-item w3-right">
+                  <div className="w3-bar-item w3-right" style={{textAlign:'center'}}>
                     <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}}> Study Now </button> 
+                    <p style={{textAlign:'center'}}> 
+                      <span className="w3-text-grey" style={{marginBottom: '8px'}}> Waiting for payment </span> <br />
+                      <span className="w3-text-grey cursor-pointer" style={{textDecoration:'underline'}}> Order: {e.invoice} </span>
+                    </p>
                   </div> 
                 </li>
               )
