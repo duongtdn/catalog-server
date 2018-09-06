@@ -51,13 +51,14 @@ class EnrolledCourses extends Component {
               return (
                 <li key={e.invoice} className="w3-bar" >
                   <div className="w3-bar-item">
-                    <p className="w3-large" style={{fontWeight: 'bold'}} > 
+                    <p className="w3-large curdor-pointer" style={{fontWeight: 'bold'}} > 
                       {e.title} <span style={{fontWeight: 'normal', fontStyle:'italic'}}> ({e.level}) </span>
                     </p>
-                    <p className="w3-text-grey"> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
+                    <p className="w3-text-grey"> {e.snippet} </p>
+                    <p className="w3-text-grey" style={{fontStyle:'italic'}}> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
                   </div>
                   <div className="w3-bar-item w3-right">
-                    <button className="w3-button w3-border"> Study Now </button> 
+                    <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}}> Study Now </button> 
                   </div> 
                 </li>
               )
