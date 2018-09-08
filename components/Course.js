@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { bindUserProvider  } from '@stormgle/react-user'
 
-import { authPost, authGet } from '@stormgle/auth-client'
+import { authPost } from '@stormgle/auth-client'
 
 import Header from './Header'
 import PurchaseOrder from './popup/PurchaseOrder'
@@ -86,14 +86,12 @@ class Course extends Component {
   componentDidMount() {
     if (typeof window !== 'undefined' && this.props.user) {
       this.setBillTo(this.props);
-      this._updateUserServiceData(this.props);
     }
   }
 
   componentWillReceiveProps(props) {
     if (!this.props.user && props.user ) {
       this.setBillTo(props);
-      this._updateUserServiceData(props);
     }
   }
 
@@ -433,38 +431,7 @@ class Course extends Component {
     return price;
   }
 
-  _updateUserServiceData(props, done) {
-    authGet({
-      endPoint: `${server.enroll}/user/enroll`,
-      service: 'sglearn',
-      onSuccess: (data) => {
-        const enroll = this._convertEnrollListToObject(data)
-        if (enroll) {
-          props.user.update({enroll});
-          done && done(null);
-        }
-      },
-      onFailure: ({status, err}) => {
-        done && done(err)
-      }
-    })
-  }
-
-  _convertEnrollListToObject(enrolls) {
-    if (enrolls) {
-      const obj = {};
-      enrolls.forEach( enroll => {
-        obj[enroll.courseId] = {
-          invoice: enroll.invoice,
-          status: enroll.status,
-          enrollAt: enroll.enrollAt
-        }
-      })
-      return obj
-    } else {
-      return null
-    }
-  }
+  
  
 }
 

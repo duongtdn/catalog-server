@@ -2,11 +2,54 @@
 
 import React, { Component } from 'react'
 
-import auth, { logout } from '@stormgle/auth-client'
+import auth, { logout, authGet } from '@stormgle/auth-client'
 import { bindUserProvider  } from '@stormgle/react-user'
 import LoginPanel from './popup/LoginPanel'
+import { server } from '../lib/env'
 
 auth.use({cookie: 'sglearn'})
+
+if (typeof window !== 'undefined') {
+  auth.onStateChange(function(state, user) {
+    if ( user) {
+      _updateUserServiceData(user)
+    }
+  })
+  
+  function _updateUserServiceData(user, done) {
+    authGet({
+      endPoint: `${server.enroll}/user/enroll`,
+      service: 'sglearn',
+      onSuccess: (data) => {
+        const enroll = _convertEnrollListToObject(data)
+        if (enroll) {
+          user.update({enroll});
+          done && done(null);
+        }
+      },
+      onFailure: ({status, err}) => {
+        done && done(err)
+      }
+    })
+  }
+  
+  function _convertEnrollListToObject(enrolls) {
+    if (enrolls) {
+      const obj = {};
+      enrolls.forEach( enroll => {
+        obj[enroll.courseId] = {
+          invoice: enroll.invoice,
+          status: enroll.status,
+          enrollAt: enroll.enrollAt
+        }
+      })
+      return obj
+    } else {
+      return null
+    }
+  }
+}
+
 
 class Sidebar extends Component {
   constructor(props) {
