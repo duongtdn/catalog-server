@@ -67,10 +67,15 @@ class EnrolledCourses extends Component {
                   </div>
                   <div className="w3-bar-item w3-right" style={{textAlign:'center'}}>
                     <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}}> Study Now </button> 
-                    <p style={{textAlign:'center'}}> 
-                      <span className="w3-text-grey" style={{marginBottom: '8px'}}> Waiting for payment </span> <br />
-                      <span className="w3-text-grey cursor-pointer" style={{textDecoration:'underline'}}> Order: {e.invoice} </span>
-                    </p>
+                    {
+                       (e.status==='billing') ?
+                          <p style={{textAlign:'center'}}> 
+                            <span className="w3-text-grey" style={{marginBottom: '8px'}}> Waiting for payment </span> <br />
+                            <span className="w3-text-grey cursor-pointer" style={{textDecoration:'underline'}}> Order: {e.invoice} </span>
+                          </p>
+                          :
+                          null
+                    }
                   </div> 
                 </li>
               )
