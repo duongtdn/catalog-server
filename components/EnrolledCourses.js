@@ -9,12 +9,16 @@ import { bindUserProvider  } from '@stormgle/react-user'
 
 import { server } from '../lib/env'
 import Header from './Header'
+import BankTranfer from './popup/BankTransfer'
 
 class EnrolledCourses extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { enrolled: null }
+    this.state = { 
+      enrolled: null,
+      showBankTransfer: false
+    }
   }
 
   componentDidMount() {
@@ -56,7 +60,7 @@ class EnrolledCourses extends Component {
                               :
                               <span className="w3-tag w3-small w3-orange" style={{fontWeight: 'normal'}}> Active </span>
               return (
-                <li key={e.invoice} className="w3-bar" >
+                <li key={e.invoice.number} className="w3-bar" >
                   <div className="w3-bar-item">
                     <p className="w3-large cursor-pointer" style={{fontWeight: 'bold'}} > 
                       {tag} <br />
@@ -65,13 +69,13 @@ class EnrolledCourses extends Component {
                     <p className="w3-text-grey"> {e.snippet} </p>
                     <p className="w3-text-grey" style={{fontStyle:'italic'}}> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
                   </div>
-                  <div className="w3-bar-item w3-right" style={{textAlign:'center'}}>
+                  <div className="w3-bar-item w3-right" style={{textAlign:'center', paddingTop: '36px'}}>
                     <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}}> Study Now </button> 
                     {
                        (e.status==='billing') ?
                           <p style={{textAlign:'center'}}> 
                             <span className="w3-text-grey" style={{marginBottom: '8px'}}> Waiting for payment </span> <br />
-                            <span className="w3-text-grey cursor-pointer" style={{textDecoration:'underline'}}> Order: {e.invoice} </span>
+                            <span className="w3-text-grey cursor-pointer" style={{textDecoration:'underline'}}> Order: {e.invoice.number} </span>
                           </p>
                           :
                           null
@@ -83,6 +87,12 @@ class EnrolledCourses extends Component {
           } </ul>
 
           </div>
+
+          {/* <BankTranfer  show = {this.state.showBankTransfer}
+                        cancel = {() => {this.setState({showBankTransfer : false})}}
+                        user={this.props.user}
+                        invoice={this.state.invoice}
+          /> */}
   
         </div>
       )
