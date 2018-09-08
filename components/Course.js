@@ -379,7 +379,7 @@ class Course extends Component {
           data.items.forEach(item => {
             if (item.type === 'course') {
               enroll[item.code] = {
-                invoice: data.number,
+                invoice: {number: data.number, issueAt: data.issueAt, items: data.items, subTotal: items.subTotal},
                 status: data.status,
                 enrollAt: data.issueAt
               }
