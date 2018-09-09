@@ -287,6 +287,7 @@ class Course extends Component {
                       cancel = {() => {this.setState({showBankTransfer : false})}}
                       user={this.props.user}
                       invoice={this.state.invoice}
+                      title="Success"
         />
 
         <Error  show = {this.state.showError}
@@ -377,13 +378,13 @@ class Course extends Component {
           data.items.forEach(item => {
             if (item.type === 'course') {
               enroll[item.code] = {
-                invoice: {number: data.number, issueAt: data.issueAt, items: data.items, subTotal: items.subTotal},
+                invoice: {number: data.number, issueAt: data.issueAt, items: data.items, subTotal: data.subTotal},
                 status: data.status,
                 enrollAt: data.issueAt
               }
             }
           })
-        }       
+        }    
         this.props.user && this.props.user.update({enroll});
         this.setState({
           invoice: data, 

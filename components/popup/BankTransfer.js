@@ -46,7 +46,7 @@ class BankTransfer extends Component {
           <header className="w3-container "> 
             <span onClick={this.props.cancel} 
                   className="w3-button w3-display-topright w3-red">&times;</span>
-            <h2 className="w3-text-green" style={{fontWeight: 'bold'}} > Success </h2>
+            <h2 className="w3-text-green" style={{fontWeight: 'bold'}} > {this.props.title} </h2>
           </header>
 
           <div className="w3-container" style={{marginBottom: '32px'}} >

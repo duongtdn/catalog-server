@@ -17,8 +17,14 @@ class EnrolledCourses extends Component {
 
     this.state = { 
       enrolled: null,
-      showBankTransfer: false
+      showBankTransfer: false,
+      invoiceToShow: null
     }
+
+    const methods = [
+      'openBankTransferPopup'
+    ];
+    methods.forEach(method => this[method] = this[method].bind(this))
   }
 
   componentDidMount() {
@@ -70,7 +76,9 @@ class EnrolledCourses extends Component {
                     <p className="w3-text-grey" style={{fontStyle:'italic'}}> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
                   </div>
                   <div className="w3-bar-item w3-right" style={{textAlign:'center', paddingTop: '36px'}}>
-                    <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}}> Study Now </button> 
+                    <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}} onClick={() => this.openBankTransferPopup(e.invoice)}> 
+                      Study Now 
+                    </button> 
                     {
                        (e.status==='billing') ?
                           <p style={{textAlign:'center'}}> 
@@ -88,11 +96,12 @@ class EnrolledCourses extends Component {
 
           </div>
 
-          {/* <BankTranfer  show = {this.state.showBankTransfer}
+          <BankTranfer  show = {this.state.showBankTransfer}
                         cancel = {() => {this.setState({showBankTransfer : false})}}
                         user={this.props.user}
-                        invoice={this.state.invoice}
-          /> */}
+                        invoice={this.state.invoiceToShow}
+                        title="This course is wating for payment completed"
+          />
   
         </div>
       )
@@ -109,6 +118,10 @@ class EnrolledCourses extends Component {
       )
     }
    
+  }
+
+  openBankTransferPopup(invoiceToShow) {
+    this.setState({ invoiceToShow, showBankTransfer: true })
   }
 
   _createEnrolledList(props) {
