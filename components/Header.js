@@ -9,47 +9,6 @@ import { server } from '../lib/env'
 
 auth.use({cookie: 'sglearn'})
 
-if (typeof window !== 'undefined') {
-  auth.onStateChange(function(state, user) {
-    if ( user) {
-      _updateUserServiceData(user)
-    }
-  })
-  
-  function _updateUserServiceData(user, done) {
-    authGet({
-      endPoint: `${server.enroll}/user/enroll`,
-      service: 'sglearn',
-      onSuccess: (data) => {
-        const enroll = _convertEnrollListToObject(data)
-        if (enroll) {
-          user.update({enroll});
-          done && done(null);
-        }
-      },
-      onFailure: ({status, err}) => {
-        done && done(err)
-      }
-    })
-  }
-  
-  function _convertEnrollListToObject(enrolls) {
-    if (enrolls) {
-      const obj = {};
-      enrolls.forEach( enroll => {
-        obj[enroll.courseId] = {
-          invoice: enroll.invoice,
-          status: enroll.status,
-          enrollAt: enroll.enrollAt
-        }
-      })
-      return obj
-    } else {
-      return null
-    }
-  }
-}
-
 
 class Sidebar extends Component {
   constructor(props) {
@@ -96,7 +55,15 @@ class Header extends Component {
       route: 'login'
     }
 
-    const methods = ['closeSidebar', 'openSidebar', 'login', 'logout', 'closeLogin']
+    const methods = [
+      'closeSidebar', 
+      'openSidebar', 
+      'login', 
+      'logout', 
+      'closeLogin',
+      '_updateUserServiceData',
+      '_convertEnrollListToObject'
+    ]
     methods.forEach( method => this[method] = this[method].bind(this) )
 
   }
@@ -104,6 +71,10 @@ class Header extends Component {
   componentWillReceiveProps(props) {
     if (props.showLoginPanel) {      
      this.login(props.showLoginPanel)
+    }
+    if (typeof window !== 'undefined' && !this.props.user && props.user) {
+      // user just logged in
+      this._updateUserServiceData(props.user)
     }
   }
 
@@ -175,6 +146,39 @@ class Header extends Component {
   closeLogin() {
     this.setState({ showLogin: false, showSidebar: false })
     this.props.onLoginPanelClosed && this.props.onLoginPanelClosed();
+  }
+
+  _updateUserServiceData(user, done) {
+    authGet({
+      endPoint: `${server.enroll}/user/enroll`,
+      service: 'sglearn',
+      onSuccess: (data) => {
+        const enroll = this._convertEnrollListToObject(data)
+        if (enroll) {
+          user.update({enroll});
+          done && done(null);
+        }
+      },
+      onFailure: ({status, err}) => {
+        done && done(err)
+      }
+    })
+  }
+  
+  _convertEnrollListToObject(enrolls) {
+    if (enrolls) {
+      const obj = {};
+      enrolls.forEach( enroll => {
+        obj[enroll.courseId] = {
+          invoice: enroll.invoice,
+          status: enroll.status,
+          enrollAt: enroll.enrollAt
+        }
+      })
+      return obj
+    } else {
+      return null
+    }
   }
 
 }
