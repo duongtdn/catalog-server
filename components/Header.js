@@ -161,10 +161,8 @@ class Header extends Component {
       service: 'sglearn',
       onSuccess: (data) => {
         const enroll = this._convertEnrollListToObject(data)
-        if (enroll) {
-          user.update({enroll});
-          done && done(null);
-        }
+        user.update({enroll});
+        done && done(null);
       },
       onFailure: ({status, err}) => {
         done && done(err)
@@ -173,7 +171,7 @@ class Header extends Component {
   }
   
   _convertEnrollListToObject(enrolls) {
-    if (enrolls) {
+    if (enrolls && enrolls.length > 0) {
       const obj = {};
       enrolls.forEach( enroll => {
         obj[enroll.courseId] = {
