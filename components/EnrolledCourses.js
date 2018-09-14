@@ -19,7 +19,6 @@ class InvoiceDetail extends Component {
   }
 
   render() {
-    console.log(this.props.invoice)
     if (this.props.invoice) {
       const invoice = this.props.invoice;
       const d = new Date(parseInt(invoice.issueAt));

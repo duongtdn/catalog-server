@@ -68,6 +68,13 @@ class Header extends Component {
 
   }
 
+  componentWillMount() {
+    if (typeof window !== 'undefined' && this.props.user) {
+      // user logged in
+      this._updateUserServiceData(this.props.user)
+    }
+  }
+
   componentWillReceiveProps(props) {
     if (props.showLoginPanel) {      
      this.login(props.showLoginPanel)
