@@ -249,6 +249,26 @@ class EnrolledCourses extends Component {
       data: {courses: courseIds},
       onSuccess: ({status, data}) => {
         const enrolled = this._matchCourseWithEnrolled(user.enroll, data.data);
+
+        enrolled.sort(function(a,b) {
+          // if one is billing, it will be sorted first
+          if (a.status === 'billing' && b.status !== 'billing') {
+            return -1
+          }
+          if (b.status === 'billing' && a.status !== 'billing') {
+            return 1
+          }
+          // either a or b are billing or neither is, active will come first compared with completed
+          if (a.status === 'active' && b.status === 'completed') {
+            return -1
+          }
+          if (a.status === 'completed' && b.status === 'active') {
+            return 1
+          }
+          // a and b status is the same, sort by enrolled date
+          return b.enrollAt - a.enrollAt
+        })
+        
         this.setState({ enrolled })
       },
       onFailure: ({status, err}) => {
