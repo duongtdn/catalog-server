@@ -405,7 +405,7 @@ class Course extends Component {
 
   goToStudyPage(courseId) {
     console.log(`go to study page: http://learndesk.io/study/${courseId}`)
-    auth.xsite.open(`http://localhost:3300/study/${courseId}`)
+    auth.xsite.open(`${server.learndesk}/study/${courseId}`)
   }
 
   _calculateOfferPrice() {
