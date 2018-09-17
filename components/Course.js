@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { bindUserProvider  } from '@stormgle/react-user'
 
-import { authPost } from '@stormgle/auth-client'
+import auth, { authPost } from '@stormgle/auth-client'
 
 import Header from './Header'
 import PurchaseOrder from './popup/PurchaseOrder'
@@ -405,6 +405,7 @@ class Course extends Component {
 
   goToStudyPage(courseId) {
     console.log(`go to study page: http://learndesk.io/study/${courseId}`)
+    auth.xsite.open(`http://localhost:3300/study/${courseId}`)
   }
 
   _calculateOfferPrice() {
