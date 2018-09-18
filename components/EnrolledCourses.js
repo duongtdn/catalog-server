@@ -138,13 +138,7 @@ class EnrolledCourses extends Component {
           <ul className="w3-ul"> {
             this.state.enrolled && this.state.enrolled.map(e => {
               const d = new Date(parseInt(e.enrollAt));
-              const tag = (e.status==='billing') ? 
-                            <span className="w3-tag w3-small w3-red" style={{fontWeight: 'normal'}}> New </span>
-                            :
-                            (e.status==='completed') ? 
-                              <span className="w3-tag w3-small w3-green" style={{fontWeight: 'normal'}}> Completed </span>
-                              :
-                              <span className="w3-tag w3-small w3-orange" style={{fontWeight: 'normal'}}> Active </span>
+              const tag = this._generateTag(e);
               return (
                 <li key={e.invoice.number} className="w3-bar" >
                   <div className="w3-bar-item">
@@ -222,6 +216,8 @@ class EnrolledCourses extends Component {
         this.showBankTransferPopup(enroll.invoice)
         break;
       case 'active':
+        console.log('update enroll sattus to studying')
+      case 'studying':
       case 'completed':
         console.log(`goto: https://learndesk.io/study/${enroll.courseId}`)
       default:
@@ -232,6 +228,25 @@ class EnrolledCourses extends Component {
 
   showBankTransferPopup(invoiceToShow) {
     this.setState({ invoiceToShow, showBankTransfer: true })
+  }
+
+  _generateTag(e) {
+    let tag = null;
+    switch (e.status) {
+      case 'billing': 
+        tag = <span className="w3-tag w3-small w3-blue-grey" style={{fontWeight: 'normal'}}> Pending </span>
+        break
+      case 'completed':
+        tag = <span className="w3-tag w3-small w3-green" style={{fontWeight: 'normal'}}> Completed </span>
+        break
+      case 'active':
+        tag = <span className="w3-tag w3-small w3-yellow" style={{fontWeight: 'normal'}}> Active </span>
+        break
+      case 'studying':
+        tag = <span className="w3-tag w3-small w3-blue" style={{fontWeight: 'normal'}}> Studying </span>
+        break
+    }
+    return tag
   }
 
   _createEnrolledList(props) {
@@ -258,7 +273,15 @@ class EnrolledCourses extends Component {
           if (b.status === 'billing' && a.status !== 'billing') {
             return 1
           }
-          // either a or b are billing or neither is, active will come first compared with completed
+
+          if (a.status === 'studying' && b.status !== 'studying') {
+            return -1
+          }
+          if (b.status === 'studying' && a.status !== 'studying') {
+            return 1
+          }
+
+          
           if (a.status === 'active' && b.status === 'completed') {
             return -1
           }
