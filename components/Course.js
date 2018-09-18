@@ -405,6 +405,21 @@ class Course extends Component {
 
   goToStudyPage(courseId) {
     console.log(`go to study page: http://learndesk.io/study/${courseId}`)
+    console.log( this.props.user.enroll[courseId])
+    if (this.props.user && this.props.user.enroll && 
+        this.props.user.enroll[courseId] && this.props.user.enroll[courseId].status === 'active') {
+        authPost({
+          endPoint: `${server.enroll}/update/status`,
+          service: 'sglearn',
+          data: {courseId, status: 'studying'},
+          onSuccess: (data) => {
+            console.log('this course is studying now')
+          },
+          onFailure: (err) => {
+            console.log(err)
+          }
+        })
+    }
     auth.xsite.open(`${server.learndesk}/study/${courseId}`)
   }
 

@@ -7,6 +7,8 @@ import React, { Component } from 'react'
 import { postJSON } from 'simple-json-xhr'
 import { bindUserProvider  } from '@stormgle/react-user'
 
+import auth, { authPost } from '@stormgle/auth-client'
+
 import { server } from '../lib/env'
 import Header from './Header'
 import BankTranfer from './popup/BankTransfer'
@@ -217,6 +219,17 @@ class EnrolledCourses extends Component {
         break;
       case 'active':
         console.log('update enroll sattus to studying')
+        authPost({
+          endPoint: `${server.enroll}/update/status`,
+          service: 'sglearn',
+          data: {courseId: enroll.courseId, status: 'studying'},
+          onSuccess: (data) => {
+            console.log('this course is studying now')
+          },
+          onFailure: (err) => {
+            console.log(err)
+          }
+        })
       case 'studying':
       case 'completed':
         console.log(`goto: https://learndesk.io/study/${enroll.courseId}`)
