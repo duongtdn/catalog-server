@@ -233,6 +233,7 @@ class EnrolledCourses extends Component {
       case 'studying':
       case 'completed':
         console.log(`goto: https://learndesk.io/study/${enroll.courseId}`)
+        auth.xsite.open(`${server.learndesk}/study/${enroll.courseId}`)
       default:
         break;``
     }
