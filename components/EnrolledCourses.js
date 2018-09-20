@@ -118,7 +118,6 @@ class EnrolledCourses extends Component {
   }
 
   render() {
-    console.log(this.state.enrolled)
     if (this.props.user) {
       return (
         <div className="sg-content">
@@ -225,6 +224,14 @@ class EnrolledCourses extends Component {
           data: {courseId: enroll.courseId, status: 'studying'},
           onSuccess: (data) => {
             console.log('this course is studying now')
+            // update local enroll status
+            const _enroll = this.props.user.enroll;
+            _enroll[enroll.courseId] = {
+              enrollAt: enroll.enrollAt,
+              invoice: enroll.invoice,
+              status: 'studying'
+            }
+            this.props.user.update({enroll: _enroll})
           },
           onFailure: (err) => {
             console.log(err)
@@ -273,6 +280,7 @@ class EnrolledCourses extends Component {
     for(let courseId in user.enroll) {
       courseIds.push(courseId)
     }
+    // to be improved: cache courses so that it does not need to downlaod everytime props change
     postJSON({
       endPoint: `${server.course}/query`,
       data: {courses: courseIds},
