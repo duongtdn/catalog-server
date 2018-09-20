@@ -161,20 +161,25 @@ class Course extends Component {
                     (price.discount) ?
                       <div>
                         <button className="w3-button w3-green w3-card-4" onClick = {this.openPurchaseOrder} > 
-                          Enroll Now (Save {price.discount}%) 
+                          Enroll Now (-{price.discount}%) 
                         </button>
                         <p> {course.promote.reason} </p>
                         <p > 
 
-                          <span className="w3-large w3-text-red" style={{fontWeight: 'bold', textDecoration: 'line-through', marginRight: '16px'}}> 
+                          <span className="w3-large w3-text-grey" style={{fontWeight: 'bold', textDecoration: 'line-through', marginRight: '16px'}}> 
                             {/* {price.origin.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })} */}
                             {localeString(price.origin, '.')} {'\u20ab'}
                           </span> 
 
-                          <span className="w3-small w3-text-orange" style={{fontWeight: 'bold'}}> 
+                          <span className="w3-text-red" style={{fontWeight: 'bold', marginRight: '16px'}}> 
                             {/* {price.offer.toLocaleString(course.price.locale, { style: 'currency', currency: course.price.currency })} */}
                             {localeString(price.offer, '.')} {'\u20ab'}
                           </span> 
+
+                          <span className="w3-small w3-text-orange" style={{fontWeight: 'bold'}}> 
+                            (-{price.discount}%)
+                          </span> 
+
                         </p>
                       </div>
                     :
