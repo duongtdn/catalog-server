@@ -1,25 +1,26 @@
 {
-  "name": "sglearn-web-server",
-  "version": "1.0.0",
+  "name": "@sglearn/web-server",
+  "version": "1.0.1",
   "description": "sglearn web server",
-  "main": "index.js",
+  "main": "dist/api.js",
   "scripts": {
     "build:api": "webpack --config webpack.server.config.js",
     "build:client": "webpack --config webpack.client.config.js",
     "build": "rm -rf dist/ && npm run build:api && npm run build:client",
     "local": "npm run build && node example/server.local.js",
-    "example": "npm run local"
+    "example": "npm run local",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/duongtdn/sglearn-web-server.git"
+    "url": "git+https://github.com/sglearn/web-server.git"
   },
   "author": "duongtdn",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/duongtdn/sglearn-web-server/issues"
+    "url": "https://github.com/sglearn/web-server/issues"
   },
-  "homepage": "https://github.com/duongtdn/sglearn-web-server#readme",
+  "homepage": "https://github.com/sglearn/web-server#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
@@ -27,26 +28,13 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.2",
-    "catalogdb-dynamodb-driver": "^1.0.0",
-    "catalogdb-test-helper": "^1.0.0",
-    "cookie-parser": "^1.4.3",
-    "cors": "^2.8.4",
-    "coursedb-dynamodb-driver": "^1.0.0",
-    "coursedb-test-helper": "^1.0.0",
-    "database-abstractor": "^1.0.0",
-    "database-test-helper": "^1.0.0",
-    "dotenv": "^5.0.1",
-    "enrolldb-dynamodb-driver": "^1.0.0",
-    "enrolldb-test-helper": "^1.0.0",
-    "express": "^4.16.2",
-    "mocha": "^5.0.1",
     "webpack": "^4.16.0",
     "webpack-cli": "^3.0.8"
   },
   "dependencies": {
-    "@stormgle/auth-client": "^1.2.0",
+    "@stormgle/auth-client": "^1.2.3",
     "@stormgle/jtoken-util": "^1.0.0",
-    "@stormgle/react-user": "^1.0.0",
+    "@stormgle/react-user": "^1.1.1",
     "express-api-binder": "^1.1.0",
     "jsonwebtoken": "^8.3.0",
     "react": "^16.4.1",

@@ -19,7 +19,7 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist/client"),
     filename: "[name].js",
   }
 }
