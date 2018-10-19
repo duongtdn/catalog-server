@@ -1,6 +1,6 @@
 {
   "name": "@sglearn/web-server",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "sglearn web server",
   "main": "dist/api.js",
   "scripts": {
