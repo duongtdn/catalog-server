@@ -3,11 +3,7 @@
 import React, { Component } from 'react'
 import { Login } from '@stormgle/react-user'
 
-const _api = {
-  login: process.env.API_LOGIN || 'http://localhost:3100/auth/login',
-  signup: process.env.API_SIGNUP || 'http://localhost:3100/auth/signup',
-  check: process.env.API_CHECK || 'http://localhost:3100/check/user',
-}
+import { api } from '../../env'
 
 class LoginPanel extends Component {
   constructor(props) {
@@ -22,7 +18,7 @@ class LoginPanel extends Component {
         <div style={{margin: 'auto'}} >
           <Login show = {this.props.display} 
                  close = {this.props.close} 
-                 api = {_api}
+                 api = {api}
                  route={this.props.route}
           /> 
         </div>
