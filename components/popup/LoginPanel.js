@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { Login } from '@stormgle/react-user'
 
-import { api } from '../../env'
+import { authApi } from '../../lib/env'
 
 class LoginPanel extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class LoginPanel extends Component {
         <div style={{margin: 'auto'}} >
           <Login show = {this.props.display} 
                  close = {this.props.close} 
-                 api = {api}
+                 api = {authApi}
                  route={this.props.route}
           /> 
         </div>
