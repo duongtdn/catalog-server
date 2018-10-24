@@ -4,16 +4,7 @@ import React, { Component } from 'react'
 
 import { localeString } from '../../lib/utils'
 
-const banks = {
-  tcb: {
-    name: 'Techcombank HCMC',
-    account: '1111-2222-3333-4455'
-  },
-  vcb: {
-    name: 'Vietcombank HCMC',
-    account: '6666-7777-8888-9900'
-  }
-}
+import banks from '../../lib/banks'
 
 class BankTransfer extends Component {
   constructor(props) {
@@ -68,8 +59,14 @@ class BankTransfer extends Component {
             </p>
             
             <p>
-              <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}}>Account No.</label>
-              <input className="w3-input w3-border" type="text" value={banks[this.state.bank].account} disabled/>
+              <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}}>Account Info.</label>
+              <textarea className="w3-input w3-border" type="text" 
+                        value={`
+                        Account Name: ${banks[this.state.bank].account.name}
+                        Account Number: ${banks[this.state.bank].account.number}
+                        `} 
+                        disabled
+              />
             </p>
 
             <p>
