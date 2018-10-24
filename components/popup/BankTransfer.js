@@ -60,11 +60,8 @@ class BankTransfer extends Component {
             
             <p>
               <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}}>Account Info.</label>
-              <textarea className="w3-input w3-border" type="text" 
-                        value={`
-                        Account Name: ${banks[this.state.bank].account.name}
-                        Account Number: ${banks[this.state.bank].account.number}
-                        `} 
+              <textarea className="w3-input w3-border" type="text" rows="4"
+                        value= {"Account Name: " + banks[this.state.bank].account.name + "\r\n" + "Account Number: " + banks[this.state.bank].account.number}
                         disabled
               />
             </p>
@@ -75,7 +72,7 @@ class BankTransfer extends Component {
 
             <p>
               <label className="w3-text-blue-grey" style={{fontWeight: 'bold'}}> Content </label>
-              <textarea className="w3-large" style={{width:'100%'}} value={this.state.content} disabled />
+              <textarea className="w3-large" style={{width:'100%'}} rows="4" value={this.state.content} disabled />
             </p>
 
           </div>
