@@ -182,7 +182,7 @@ class Header extends Component {
       })
       return obj
     } else {
-      return null
+      return {}
     }
   }
 
