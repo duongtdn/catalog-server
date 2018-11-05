@@ -156,10 +156,10 @@ class EnrolledCourses extends Component {
                         <div className="w3-bar-item">
                           <p className="w3-large " style={{fontWeight: 'bold'}} > 
                             {tag} <br />
-                            <span className="cursor-pointer w3-hover-text-blue" onClick={() => this.gotoStudyPage(e)}> 
+                            <a className="cursor-pointer w3-hover-text-blue" style={{textDecoration: 'none'}} href={`/course/${e.courseId}`}> 
                               {e.title} 
                               <span style={{fontWeight: 'normal', fontStyle:'italic'}} > ({e.level}) </span>
-                            </span>
+                            </a>
                           </p>
                           <p className="w3-text-grey"> {e.snippet} </p>
                           <p className="w3-text-grey" style={{fontStyle:'italic'}}> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
