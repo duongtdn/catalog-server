@@ -99,7 +99,8 @@ class EnrolledCourses extends Component {
       enrolled: null,
       showBankTransfer: false,
       invoiceToShow: null,
-      showInvoiceDetail: false
+      showInvoiceDetail: false,
+      isLoading: false
     }
 
     const methods = [
@@ -114,7 +115,19 @@ class EnrolledCourses extends Component {
   }
 
   componentWillReceiveProps(props) {
-    this._createEnrolledList(props)
+    /*
+      when user perform login, this function is invoked two times.
+      In the first time, props.user change from undefined to object
+      however, in the first time, user.enroll is undefined since it is not loaded yet.
+      After user.enroll is loaded and updated by Header component, this function is
+      called again. This time, it props.user.enroll is not empty
+    */
+    if (!this.props.user && props.user) {
+      this.setState({ isLoading: true }); // show loading as long as user has logged in
+    }
+    if ((!this.props.user || ( this.props.user && !this.props.user.enroll)) && (props.user && props.user.enroll)) {
+      this._createEnrolledList(props);  // when user.enroll is updated then create enroll list
+    }
   }
 
   render() {
@@ -127,52 +140,53 @@ class EnrolledCourses extends Component {
 
           {/* just a sentence */}
           {
-            this.state.enrolled ?
+            this.state.isLoading ?
               <h3> 
-                You have {this.state.enrolled.filter(e=> e.status === 'billing').length} new courses
+                {/* You have {this.state.enrolled.filter(e=> e.status === 'billing').length} new courses */}
+                Loading your enrollments...
               </h3>
               :
-              <h3> You don't have any enrolled course yet </h3> 
-          }  
-
-          {/* enrolled list */}
-          <ul className="w3-ul"> {
-            this.state.enrolled && this.state.enrolled.map(e => {
-              const d = new Date(parseInt(e.enrollAt));
-              const tag = this._generateTag(e);
-              return (
-                <li key={e.invoice.number} className="w3-bar" >
-                  <div className="w3-bar-item">
-                    <p className="w3-large " style={{fontWeight: 'bold'}} > 
-                      {tag} <br />
-                      <span className="cursor-pointer w3-hover-text-blue" onClick={() => this.gotoStudyPage(e)}> 
-                        {e.title} 
-                        <span style={{fontWeight: 'normal', fontStyle:'italic'}} > ({e.level}) </span>
-                      </span>
-                    </p>
-                    <p className="w3-text-grey"> {e.snippet} </p>
-                    <p className="w3-text-grey" style={{fontStyle:'italic'}}> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
-                  </div>
-                  <div className="w3-bar-item w3-right" style={{textAlign:'center', paddingTop: '36px'}}>
-                    <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}} onClick={() => this.gotoStudyPage(e)}> 
-                      Study Now 
-                    </button> 
-                    {
-                       (e.status==='billing') ?
-                          <p style={{textAlign:'center'}}> 
-                            <span className="w3-text-grey" style={{marginBottom: '8px'}}> Waiting for payment </span> <br />
-                            <span className="w3-text-grey cursor-pointer" style={{textDecoration:'underline'}} onClick={() => this.showInvoiceDetailPopup(e.invoice)}> 
-                              Order: {e.invoice.number} 
+              this.state.enrolled && this.state.enrolled.length > 0 ?   
+                <ul className="w3-ul"> {
+                  this.state.enrolled.map(e => {
+                    const d = new Date(parseInt(e.enrollAt));
+                    const tag = this._generateTag(e);
+                    return (
+                      <li key={e.invoice.number} className="w3-bar" >
+                        <div className="w3-bar-item">
+                          <p className="w3-large " style={{fontWeight: 'bold'}} > 
+                            {tag} <br />
+                            <span className="cursor-pointer w3-hover-text-blue" onClick={() => this.gotoStudyPage(e)}> 
+                              {e.title} 
+                              <span style={{fontWeight: 'normal', fontStyle:'italic'}} > ({e.level}) </span>
                             </span>
                           </p>
-                          :
-                          null
-                    }
-                  </div> 
-                </li>
-              )
-            })
-          } </ul>
+                          <p className="w3-text-grey"> {e.snippet} </p>
+                          <p className="w3-text-grey" style={{fontStyle:'italic'}}> Enrolled on: {`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`} </p>
+                        </div>
+                        <div className="w3-bar-item w3-right" style={{textAlign:'center', paddingTop: '36px'}}>
+                          <button className="w3-button w3-border w3-text-blue" style={{fontWeight:'bold'}} onClick={() => this.gotoStudyPage(e)}> 
+                            Study Now 
+                          </button> 
+                          {
+                            (e.status==='billing') ?
+                                <p style={{textAlign:'center'}}> 
+                                  <span className="w3-text-grey" style={{marginBottom: '8px'}}> Waiting for payment </span> <br />
+                                  <span className="w3-text-grey cursor-pointer" style={{textDecoration:'underline'}} onClick={() => this.showInvoiceDetailPopup(e.invoice)}> 
+                                    Order: {e.invoice.number} 
+                                  </span>
+                                </p>
+                                :
+                                null
+                          }
+                        </div> 
+                      </li>
+                    )
+                  })
+                } </ul>
+              :
+                <h3> You don't have any enrolled course yet </h3>
+          }  
 
           </div>
 
@@ -313,13 +327,14 @@ class EnrolledCourses extends Component {
           // a and b status is the same, sort by enrolled date
           return b.enrollAt - a.enrollAt
         })
-        
-        this.setState({ enrolled })
+        this.setState({ enrolled, isLoading: false })
       },
       onFailure: ({status, err}) => {
         console.log(err)
+        this.setState({ isLoading: false })
       }
     })
+    this.setState({ isLoading: true })
   }
 
   _matchCourseWithEnrolled(enrolledList, courses) {
