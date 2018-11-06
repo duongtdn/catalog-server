@@ -13,6 +13,10 @@ funcs.forEach(func => {
   api.createFunction(method, uri, require(`./${includePath}`))
 })
 
+api.get('/browse', function(req, res) {
+  res.redirect(302,'/catalog/ca-emb')
+})
+
 module.exports = api;
 
 
