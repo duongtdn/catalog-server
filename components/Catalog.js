@@ -18,19 +18,19 @@ class Catalog extends Component {
         <div className="w3-container w3-margin">                   
           {/* render list of catalogs */}
           {
-            list.map(cat => {
-              if (cat.title === catalog.title) {
-                return (
-                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-blue-grey"  style={{marginRight: '16px'}}> <h4> {catalog.title} </h4> </div>
-                )
-              } else {
-                return (
-                  <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-hover-khaki" style={{marginRight: '16px', background: 'none', color: 'grey'}}> 
-                    <h4> <a href={`/catalog/${cat.catalogId}`} style={{textDecoration: 'none'}}> {cat.title} </a> </h4> 
-                  </div>
-                )
-              }
-            })
+            // list.map(cat => {
+            //   if (cat.title === catalog.title) {
+            //     return (
+            //       <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-blue-grey"  style={{marginRight: '16px'}}> <h4> {catalog.title} </h4> </div>
+            //     )
+            //   } else {
+            //     return (
+            //       <div key={cat.catalogId} className="cursor-pointer w3-tag w3-round-large w3-hover-khaki" style={{marginRight: '16px', background: 'none', color: 'grey'}}> 
+            //         <h4> <a href={`/catalog/${cat.catalogId}`} style={{textDecoration: 'none'}}> {cat.title} </a> </h4> 
+            //       </div>
+            //     )
+            //   }
+            // })
           }
           
           {/* render list of courses */}
