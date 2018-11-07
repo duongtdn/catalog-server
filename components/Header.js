@@ -89,7 +89,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="w3-container w3-bar">
+      <div className="w3-container w3-bar" style={{padding: '0.01em 40px'}}>
         <div className="w3-bar-item" > <h2> Catalog </h2> </div>
 
         {/* render for small device */}
@@ -109,9 +109,20 @@ class Header extends Component {
 
         {
           (this.props.user)? 
-            <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}> 
-              <div className="w3-bar-item"> {this.props.user.profile.firstName || this.props.user.username} </div>
-              <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.logout}> Logout </button>
+            <div className="w3-bar-item w3-right w3-hide-small w3-dropdown-hover" style={{marginTop: '16px'}}>        
+              <button className="w3-button w3-hover-opacity"> 
+                <img src={this.props.user.profile.picture}
+                      className="w3-image w3-round" 
+                      style={{paddingRight: '8px'}}
+                      width={40} height={40}
+                      alt="user picture" />
+                {this.props.user.profile.firstName || this.props.user.username} <i className="fa fa-caret-down" />
+              </button>
+              <div className="w3-dropdown-content w3-bar-block w3-card-4" style={{backgroundColor: '#f1f1f1'}}>
+                <a href=""className="w3-bar-item w3-button" > My Profile </a>
+                <a href="/me/enrolled"className="w3-bar-item w3-button" > My Study </a>
+                <button className="w3-button w3-block w3-border-top" onClick={this.logout}> Logout </button>
+              </div>
             </div>
           :
             <div className="w3-bar-item w3-right w3-hide-small" style={{marginTop: '16px'}}>               
@@ -121,13 +132,13 @@ class Header extends Component {
         }
         
         <div className="w3-bar-item w3-right w3-hide-small w3-border-right" style={{marginTop: '16px'}}> 
-          <a href="#" className="w3-bar-item w3-button no-outline">Home</a>
-          <a href="/browse" className="w3-bar-item w3-button no-outline">Browse Course</a>
+          <a href="#" className="w3-bar-item w3-button no-outline w3-hover-blue">Home</a>
+          <a href="/browse" className="w3-bar-item w3-button no-outline w3-hover-blue">Browse Course</a>
           {
-            (this.props.user)? <a href="/me/enrolled" className="w3-bar-item w3-button no-outline">My Study</a> : null
+            (this.props.user)? <a href="/me/enrolled" className="w3-bar-item w3-button no-outline w3-hover-blue">My Study</a> : null
           }
-          <a href="#" className="w3-bar-item w3-button no-outline">About</a>
-          <a href="#" className="w3-bar-item w3-button no-outline">Contact</a>
+          <a href="#" className="w3-bar-item w3-button no-outline w3-hover-blue">About</a>
+          <a href="#" className="w3-bar-item w3-button no-outline w3-hover-blue">Contact</a>
         </div>
 
         <LoginPanel display = {this.state.showLogin} route = {this.state.route} close={this.closeLogin} />
