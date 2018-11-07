@@ -25,9 +25,17 @@ class Sidebar extends Component {
 
         {
           (this.props.user)? 
-            <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'center', paddingBottom: '16px'}} > 
-              <div className="w3-bar-item" style={{textAlign: 'center'}}> {this.props.user.displayName || this.props.user.username} </div>
-              <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.props.logout}> Logout </button>
+            // <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'center', paddingBottom: '16px'}} > 
+            //   <div className="w3-bar-item" style={{textAlign: 'center'}}> {this.props.user.displayName || this.props.user.username} </div>
+            //   <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.props.logout}> Logout </button>
+            // </div>
+            <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'center', paddingBottom: '16px'}} >
+              <img src={this.props.user.profile.picture}
+                      className="w3-image w3-round" 
+                      style={{paddingRight: '8px'}}
+                      width={60} height={60}
+                      alt="user picture" />
+              {this.props.user.profile.firstName || this.props.user.username}
             </div>
           :
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px'}} >               
@@ -35,12 +43,28 @@ class Sidebar extends Component {
               <button className="w3-button w3-block w3-text-orange w3-hover-none w3-hover-text-blue no-outline" onClick={() => this.props.login('signup')} > Sign up </button>
             </div>
         }
+
+        {
+          (this.props.user)? 
+            <a href="" className="w3-bar-item w3-button">My Profile</a> : null
+        }
+
+        {
+          (this.props.user)? 
+            <a href="/me/enrolled" className="w3-bar-item w3-button">My Study</a> : null
+        }
         
-        <a href="#" className="w3-bar-item w3-button">Home</a>
+        <a href="#" className="w3-bar-item w3-button w3-border-top">Home</a>
         <a href="/browse" className="w3-bar-item w3-button">Browse Courses</a>
-        <a href="/me/enrolled" className="w3-bar-item w3-button">My Study</a>
         <a href="#" className="w3-bar-item w3-button">About</a>
         <a href="#" className="w3-bar-item w3-button">Contact</a>
+
+        {
+          (this.props.user)? 
+              <button className="w3-button w3-block w3-border-top w3-text-orange" onClick={this.props.logout}> Logout </button>
+          : null
+        }
+
       </div>
     )
     
@@ -121,7 +145,7 @@ class Header extends Component {
               <div className="w3-dropdown-content w3-bar-block w3-card-4" style={{backgroundColor: '#f1f1f1'}}>
                 <a href=""className="w3-bar-item w3-button" > My Profile </a>
                 <a href="/me/enrolled"className="w3-bar-item w3-button" > My Study </a>
-                <button className="w3-button w3-block w3-border-top" onClick={this.logout}> Logout </button>
+                <button className="w3-button w3-block w3-border-top w3-text-orange" onClick={this.logout}> Logout </button>
               </div>
             </div>
           :
