@@ -56,8 +56,6 @@ class Sidebar extends Component {
         
         <a href="#" className="w3-bar-item w3-button w3-border-top">Home</a>
         <a href="/browse" className="w3-bar-item w3-button">Browse Courses</a>
-        <a href="#" className="w3-bar-item w3-button">About</a>
-        <a href="#" className="w3-bar-item w3-button">Contact</a>
 
         {
           (this.props.user)? 
@@ -161,8 +159,6 @@ class Header extends Component {
           {
             (this.props.user)? <a href="/me/enrolled" className="w3-bar-item w3-button no-outline w3-hover-blue">My Study</a> : null
           }
-          <a href="#" className="w3-bar-item w3-button no-outline w3-hover-blue">About</a>
-          <a href="#" className="w3-bar-item w3-button no-outline w3-hover-blue">Contact</a>
         </div>
 
         <LoginPanel display = {this.state.showLogin} route = {this.state.route} close={this.closeLogin} />
