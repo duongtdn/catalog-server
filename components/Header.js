@@ -25,11 +25,7 @@ class Sidebar extends Component {
 
         {
           (this.props.user)? 
-            // <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'center', paddingBottom: '16px'}} > 
-            //   <div className="w3-bar-item" style={{textAlign: 'center'}}> {this.props.user.displayName || this.props.user.username} </div>
-            //   <button className="w3-button w3-large w3-border w3-border-blue-grey w3-round" onClick={this.props.logout}> Logout </button>
-            // </div>
-            <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'center', paddingBottom: '16px'}} >
+            <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'left', paddingBottom: '16px'}} >
               <img src={this.props.user.profile.picture}
                       className="w3-image w3-round" 
                       style={{paddingRight: '8px'}}
