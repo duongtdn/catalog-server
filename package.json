@@ -8,7 +8,8 @@
     "build:client": "webpack --config webpack.client.config.js",
     "build": "rm -rf dist/ && npm run build:api && npm run build:client",
     "local": "npm run build && node example/server.local.js",
-    "start": "webpack-dev-server --config webpack.dev.config.js --port 3000 --history-api-fallback --host 0.0.0.0 --watch-poll",
+    "start:enrolled": "webpack-dev-server --config webpack.dev.enrolled.config.js --port 3000 --history-api-fallback --host 0.0.0.0 --watch-poll",
+    "start:profile": "webpack-dev-server --config webpack.dev.profile.config.js --port 3000 --history-api-fallback --host 0.0.0.0 --watch-poll",
     "example": "npm run local",
     "prepare": "npm run build"
   },
