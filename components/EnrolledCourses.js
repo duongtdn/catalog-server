@@ -1,7 +1,5 @@
 "use strict"
 
-"use strict"
-
 import React, { Component } from 'react'
 
 import { postJSON } from 'simple-json-xhr'
