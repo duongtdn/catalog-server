@@ -21,12 +21,6 @@ class SideBar extends Component {
           Profile
         </button> 
 
-        <button  className={`w3-bar-item w3-button w3-border-bottom ${this.isActive('contact')? 'w3-blue': ''}`}
-                 onClick={() => this.props.onSelectTab('contact')} 
-        >
-          Contact
-        </button>
-
         <button  className={`w3-bar-item w3-button w3-border-bottom ${this.isActive('password')? 'w3-blue': ''}`}
                  onClick={() => this.props.onSelectTab('password')} 
         >
@@ -45,7 +39,31 @@ class SideBar extends Component {
 class Tab extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      firstName: '',
+      middleName: '',
+      lastName: '',
+      gender: '',
+      email:[],
+      address: '',
+      phone: [],
+    }
+
+  this.updateProfile = this.updateProfile.bind(this)
+  this.resetState = this.resetState.bind(this)
+
   }
+
+  componentWillMount() {
+   this._updateStateFromProps(this.props.profile)
+  }
+
+  _updateStateFromProps(props) {
+    const _psw = {password: '', newPassword: '', retypePassword: ''}
+    this.setState({...props, ..._psw})
+  }
+
   render() {
     return (
       <div className="w3-row">
@@ -60,9 +78,6 @@ class Tab extends Component {
               <button  className={`w3-bar-item w3-button w3-border-bottom`} onClick={() => this.props.onSelectTab('profile')}>
                 Profile
               </button> 
-              <button  className={`w3-bar-item w3-button w3-border-bottom`} onClick={() => this.props.onSelectTab('contact')}>
-                Contact
-              </button> 
               <button  className={`w3-bar-item w3-button w3-border-bottom`} onClick={() => this.props.onSelectTab('password')}>
                 Password
               </button>
@@ -71,7 +86,7 @@ class Tab extends Component {
           
           <hr />
 
-          {this.renderProfile()}
+          {this[`render${this._titleCase(this.props.tab)}`]()}
 
         </div>
       </div>
@@ -86,6 +101,8 @@ class Tab extends Component {
             <label>Last Name</label>
             <input className="w3-input w3-border"
                     type="text"
+                    value={this.state.lastName}
+                    onChange={this.getTyped('lastName')}
             />
           </span>
 
@@ -93,6 +110,8 @@ class Tab extends Component {
             <label>Middle Name</label>
             <input className="w3-input w3-border"
                     type="text"
+                    value={this.state.middleName}
+                    onChange={this.getTyped('middleName')}
             />
           </span>
 
@@ -100,6 +119,8 @@ class Tab extends Component {
             <label>First Name</label>
             <input className="w3-input w3-border"
                     type="text"
+                    value={this.state.firstName}
+                    onChange={this.getTyped('firstName')}
             />
           </span>
         </p>
@@ -107,27 +128,183 @@ class Tab extends Component {
         <p>
           <label style={{marginRight: '4px'}}> Gender: </label>
 
-          <input className="w3-radio" style={{marginRight: '4px'}} type="radio" name="gender" value="male" />
+          <input className="w3-radio" style={{marginRight: '4px'}} type="radio" name="gender" value="male" 
+                 checked={this.state.gender === 'male'} 
+                 onChange = { () => this.setState({gender: 'male'}) }
+          />
           <label>Male</label>
 
           <label style={{marginRight: '8px'}} />
 
-          <input className="w3-radio" style={{marginRight: '4px'}} type="radio" name="gender" value="female" />
+          <input className="w3-radio" style={{marginRight: '4px'}} type="radio" name="gender" value="female" 
+                 checked={this.state.gender === 'female'}
+                 onChange = { () => this.setState({gender: 'female'}) }
+          />
           <label>Female</label>
         </p>
-        
+
+        <p>
+          <label>Display Name</label>
+          <input  className="w3-input w3-border"
+                  type="text"
+                  value={this.state.displayName}
+                  onChange = {this.getTyped('displayName')}
+          />
+        </p>
+
+        <p>
+          <label>Email</label>
+          {
+            this.state.email.map((email, index) => {
+              return (
+                <span  key = {index} style={{display: 'block', marginBottom: '4px'}}>
+                  <input  className = "w3-input w3-border"
+                          type = "text"
+                          value = {email}
+                          onChange = {this.getTyped('email', index)}
+                  />
+                  <label  className = "w3-text-blue" 
+                          style = {{cursor: 'pointer', display: (index === this.state.email.length - 1) ? 'inline' : 'none'}} 
+                          onClick = {this.addMoreBox('email')} > 
+                    + Add more email 
+                  </label>
+                </span>
+              )
+
+            })
+          }
+        </p>
+
+        <p>
+          <label>Phone</label>
+          {
+            this.state.phone.map((phone, index) => {
+              return (
+                <span  key = {index} style={{display: 'block', marginBottom: '4px'}}>
+                  <input  className = "w3-input w3-border"
+                          type = "text"
+                          value = {phone}
+                          onChange = {this.getTyped('phone', index)}
+                  />
+                  <label  className = "w3-text-blue" 
+                          style = {{cursor: 'pointer', display: (index === this.state.phone.length - 1) ? 'inline' : 'none'}} 
+                          onClick = {this.addMoreBox('phone')} > 
+                    + Add more phone number 
+                  </label>
+                </span>
+              )
+
+            })
+          }
+        </p>
+
+        <p>
+          <label>Address</label>
+          <input  className="w3-input w3-border"
+                  type="text"
+                  value={this.state.address}
+                  onChange = {this.getTyped('address')}
+          />
+        </p>
+
         <hr />
 
         <p>
-          <button className="w3-button w3-blue"> Save </button>
+          <button className="w3-button w3-blue" onClick={this.updateProfile}> Save </button>
           <label style={{marginRight: '8px'}} />
-          <button className="w3-button"> Reset </button>
+          <button className="w3-button" onClick={this.resetState}> Reset </button>
         </p>
             
       </div>
     )
   }
 
+  renderPassword() {
+    return (
+      <div>
+
+        <p>
+          <label>Current Password</label>
+            <input className="w3-input w3-border"
+                    type="password"
+                    value = {this.state.password}
+                    onChange = {this.getTyped('password')}
+            />
+        </p>
+
+        <p>
+          <label>New Password</label>
+            <input className="w3-input w3-border"
+                    type="password"
+                    value = {this.state.newPassword}
+                    onChange = {this.getTyped('newPassword')}
+            />
+        </p>
+
+        <p>
+          <label>Retype New Password</label>
+            <input className="w3-input w3-border"
+                    type="password"
+                    value = {this.state.retypePassword}
+                    onChange = {this.getTyped('retypePassword')}
+            />
+        </p>
+
+        <hr />
+
+        <p>
+          <button className="w3-button w3-blue"> Update Password </button>
+          <label style={{marginRight: '8px'}} />
+          <button className="w3-button"> Cancel </button>
+        </p>
+
+      </div>
+    )
+  }
+
+  _titleCase(str) {
+    return str.charAt(0).toUpperCase() + str.substring(1)
+  }
+
+  getTyped(target, index) {
+    if (index !== undefined) {
+      return (evt) => {
+        const state = {}
+        state[target] = [...this.state[target]]
+        state[target][index] = evt.target.value
+        this.setState(state)
+      }
+    } else {
+      return (evt) => {
+        const state = {}
+        state[target] = evt.target.value
+        this.setState(state)
+      }
+    }
+    
+  }
+
+  updateProfile() {
+    const profile = {...this.state}
+    profile.phone = this.state.phone.filter(phone => phone.length > 0)
+    profile.email = this.state.email.filter(email => email.length > 0)
+    this.props.update && this.props.update(profile);
+    console.log(this.state)
+  }
+
+  resetState() {
+    this._updateStateFromProps(this.props.profile)
+  }
+
+  addMoreBox(box) {
+    return (evt) => {
+      const _state = {}
+      const _container = [...this.state[box]]
+      _container.push('');
+      _state[box] = _container;
+      this.setState({ ..._state })
+    }
+  }
 }
 
 class Profile extends Component {
@@ -137,6 +314,8 @@ class Profile extends Component {
     this.state = {
       tab: 'profile'
     }
+
+    this.update = this.update.bind(this)
   }
 
   render() {
@@ -150,10 +329,17 @@ class Profile extends Component {
           />
           <Tab tab = {this.state.tab} 
                onSelectTab = { (tab) => this.setState({ tab }) }
+               profile = {user.profile}
+               update = {this.update}
           />
         </div>
       </div>
     )
+  }
+
+  update(profile) {
+    console.log('Updating Profile...')
+    console.log(profile)
   }
 
 }
