@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 
 import { bindUserProvider  } from '@stormgle/react-user'
 
+import { scorePassword } from '../lib/utils'
 import Header from './Header'
 
 class SideBar extends Component {
@@ -36,6 +37,67 @@ class SideBar extends Component {
   }
 }
 
+class StrengthIndicator extends Component {
+  constructor(props) {
+    super(props);
+
+    this.style = {
+      node: {
+        display: 'inline-block',
+        width: '10px',
+        height: '10px',
+        marginRight: '3px'
+      }
+    }
+
+    this.title = ['', 'Wreid', 'Wreid', 'Weak', 'Weak', 'Medium', 'Good', 'Awesome']
+
+  }
+  render() {
+    const score = this.props.score;
+
+    let color = '';
+    if (score < 3) {
+      color = 'red';
+    }
+    else if (score < 5) {
+      color = 'orange'
+    }
+    else if (score === 5) {
+      color = 'yellow'
+    }
+    else if (score === 6) {
+      color = 'blue'
+    }
+    else if (score === 7) {
+      color = 'green'
+    }
+
+    if (score) {
+      const nodes = [...Array(7).keys()];
+      return (
+        <span style = {{height: '26px', display: 'block'}} className = 'w3-right'>
+          {
+            nodes.map( (i) => {
+              const bgColor = i < score ? color : 'grey';
+              return(
+                <span className = {`w3-${bgColor}`} key = {i} style = {this.style.node} />
+              )
+            })
+          }
+          &nbsp; <label className = {`w3-text-${color}`}> {this.title[score]} </label>
+        </span>
+      )
+    } else {
+      return (
+        <span style = {{height: '26px', display: 'block'}} className = 'w3-right' />
+      )
+    }
+    
+  }
+
+}
+
 class Tab extends Component {
   constructor(props) {
     super(props)
@@ -56,6 +118,7 @@ class Tab extends Component {
 
     this.updateProfile = this.updateProfile.bind(this)
     this.resetState = this.resetState.bind(this)
+    this.handleKeyUpForPassword = this.handleKeyUpForPassword.bind(this)
 
   }
 
@@ -64,7 +127,7 @@ class Tab extends Component {
   }
 
   _updateStateFromProps(props) {
-    const _psw = {password: '', newPassword: '', retypePassword: ''}
+    const _psw = {password: '', newPassword: '', retypePassword: '', score: 0}
     this._getOriginProfile(props).setState({...this.originProfile, ..._psw})
   }
 
@@ -261,8 +324,18 @@ class Tab extends Component {
     return (
       <div>
 
+        <div className ="w3-text-blue" >
+          <h4> Update Password </h4>
+        </div>
+        <div className ="w3-text-grey" >
+          Your password should contain lower case, upper case, 
+          number and special characters.
+        </div>
+
+        <hr />
+
         <p>
-          <label>Current Password</label>
+          <label style = {{marginBottom: '8px', display: 'block'}} >Current Password</label>
             <input className="w3-input w3-border"
                     type="password"
                     value = {this.state.password}
@@ -271,33 +344,50 @@ class Tab extends Component {
         </p>
 
         <p>
-          <label>New Password</label>
-            <input className="w3-input w3-border"
-                    type="password"
-                    value = {this.state.newPassword}
-                    onChange = {this.getTyped('newPassword')}
-            />
+          <label style = {{marginBottom: '8px', display: 'block'}}>
+              New Password
+              <StrengthIndicator score = {this.state.score} />
+          </label>
+          <input className="w3-input w3-border"
+                  type="password"
+                  value = {this.state.newPassword}
+                  onChange = {this.getTyped('newPassword')}
+                  onKeyUp = {this.handleKeyUpForPassword}
+          />
         </p>
 
         <p>
-          <label>Retype New Password</label>
-            <input className="w3-input w3-border"
-                    type="password"
-                    value = {this.state.retypePassword}
-                    onChange = {this.getTyped('retypePassword')}
-            />
+          <label style = {{marginBottom: '8px', display: 'block'}} >Retype New Password</label>
+          <input className="w3-input w3-border"
+                  type="password"
+                  value = {this.state.retypePassword}
+                  onChange = {this.getTyped('retypePassword')}
+          />
         </p>
 
         <hr />
 
         <p>
-          <button className="w3-button w3-blue w3-hover-blue w3-hover-opacity"> Update Password </button>
+          <button className="w3-button w3-blue w3-hover-blue w3-hover-opacity"
+                  style={{marginTop: '8px'}}
+          > 
+            Update Password 
+          </button>
           <label style={{marginRight: '8px'}} />
-          <button className="w3-button"> Cancel </button>
+          <button className="w3-button"
+                  style={{marginTop: '8px'}} > 
+            Cancel 
+          </button>
         </p>
 
       </div>
     )
+  }
+
+  handleKeyUpForPassword(evt) {
+    /* score password */
+    const score = scorePassword(evt.target.value);
+    this.setState({ score })
   }
 
   _titleCase(str) {
