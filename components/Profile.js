@@ -98,6 +98,19 @@ class StrengthIndicator extends Component {
 
 }
 
+class Message extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <span className = "w3-text-red" style = {{height: '26px', marginBottom: '8px', display: 'block'}} >
+        {this.props.message}
+      </span>
+    )
+  }
+}
+
 class Tab extends Component {
   constructor(props) {
     super(props)
@@ -119,6 +132,9 @@ class Tab extends Component {
     this.updateProfile = this.updateProfile.bind(this)
     this.resetState = this.resetState.bind(this)
     this.handleKeyUpForPassword = this.handleKeyUpForPassword.bind(this)
+    this.handleKeyUpForNewPassword = this.handleKeyUpForNewPassword.bind(this)
+    this.handleKeyUpForRetypePassword = this.handleKeyUpForRetypePassword.bind(this)
+    this.updatePassword = this.updatePassword.bind(this)
 
   }
 
@@ -127,7 +143,7 @@ class Tab extends Component {
   }
 
   _updateStateFromProps(props) {
-    const _psw = {password: '', newPassword: '', retypePassword: '', score: 0}
+    const _psw = {password: '', newPassword: '', retypePassword: '', score: 0, messageBox1: '', messageBox2: '', messageBox3: ''}
     this._getOriginProfile(props).setState({...this.originProfile, ..._psw})
   }
 
@@ -321,6 +337,9 @@ class Tab extends Component {
   }
 
   renderPassword() {
+    const borderColor1 = this.state.messageBox1.length > 0 ? 'w3-border-red': ''
+    const borderColor2 = this.state.messageBox2.length > 0 ? 'w3-border-red': ''
+    const borderColor3 = this.state.messageBox3.length > 0 ? 'w3-border-red': ''
     return (
       <div>
 
@@ -336,11 +355,13 @@ class Tab extends Component {
 
         <p>
           <label style = {{marginBottom: '8px', display: 'block'}} >Current Password</label>
-            <input className="w3-input w3-border"
+            <input className={`w3-input w3-border ${borderColor1}`}
                     type="password"
                     value = {this.state.password}
                     onChange = {this.getTyped('password')}
+                    onKeyUp = {this.handleKeyUpForPassword}
             />
+            <Message message = {this.state.messageBox1} />
         </p>
 
         <p>
@@ -348,28 +369,30 @@ class Tab extends Component {
               New Password
               <StrengthIndicator score = {this.state.score} />
           </label>
-          <input className="w3-input w3-border"
+          <input className={`w3-input w3-border ${borderColor2}`}
                   type="password"
                   value = {this.state.newPassword}
                   onChange = {this.getTyped('newPassword')}
-                  onKeyUp = {this.handleKeyUpForPassword}
+                  onKeyUp = {this.handleKeyUpForNewPassword}
           />
+          <Message message = {this.state.messageBox2} />
         </p>
 
         <p>
-          <label style = {{marginBottom: '8px', display: 'block'}} >Retype New Password</label>
-          <input className="w3-input w3-border"
+          <label style = {{marginBottom: '8px', display: 'block'}} >Confirm New Password</label>
+          <input className={`w3-input w3-border ${borderColor3}`}
                   type="password"
                   value = {this.state.retypePassword}
                   onChange = {this.getTyped('retypePassword')}
+                  onKeyUp = {this.handleKeyUpForRetypePassword}
           />
+          <Message message = {this.state.messageBox3} />
         </p>
-
-        <hr />
 
         <p>
           <button className="w3-button w3-blue w3-hover-blue w3-hover-opacity"
                   style={{marginTop: '8px'}}
+                  onClick={this.updatePassword}
           > 
             Update Password 
           </button>
@@ -385,9 +408,17 @@ class Tab extends Component {
   }
 
   handleKeyUpForPassword(evt) {
+    this.setState({ messageBox1: '' })
+  }
+
+  handleKeyUpForNewPassword(evt) {
     /* score password */
     const score = scorePassword(evt.target.value);
-    this.setState({ score })
+    this.setState({ score, messageBox2: '',  messageBox3: '' })
+  }
+
+  handleKeyUpForRetypePassword(evt) {
+    this.setState({  messageBox2: '', messageBox3: '' })
   }
 
   _titleCase(str) {
@@ -412,11 +443,31 @@ class Tab extends Component {
     
   }
 
+  updatePassword() {
+    // validate password before update
+    if (this.state.password.length === 0) {
+      this.setState({ messageBox1: 'Password must not be empty'})
+      return
+    }
+    if (this.state.newPassword.length === 0) {
+      this.setState({ messageBox2: 'New Password must not be empty'})
+      return
+    }
+    if (this.state.newPassword !== this.state.retypePassword) {
+      this.setState({ messageBox2: 'Password missmatch', messageBox3: 'Password missmatch'})
+      return
+    }
+    this.props.updatePassword && this.props.updatePassword(
+        {password: this.state.password, newPassword: this.state.newPassword},
+        (err) => console.log('Update password successfull')
+    )
+  }
+
   updateProfile() {
     const profile = {...this.state}
     profile.phone = this.state.phone.filter(phone => phone.length > 0)
     profile.email = this.state.email.filter(email => email.length > 0)
-    this.props.update && this.props.update(profile, (err) => {
+    this.props.updateProfile && this.props.updateProfile(profile, (err) => {
       this._updateStateToOriginProfile()
     });
   }
@@ -444,7 +495,8 @@ class Profile extends Component {
       tab: 'profile'
     }
 
-    this.update = this.update.bind(this)
+    this.updateProfile = this.updateProfile.bind(this)
+    this.updatePassword = this.updatePassword.bind(this)
   }
 
   render() {
@@ -459,16 +511,24 @@ class Profile extends Component {
           <Tab tab = {this.state.tab} 
                onSelectTab = { (tab) => this.setState({ tab }) }
                profile = {user.profile}
-               update = {this.update}
+               updateProfile = {this.updateProfile}
+               updatePassword = {this.updatePassword}
+
           />
         </div>
       </div>
     )
   }
 
-  update(profile, done) {
+  updateProfile(profile, done) {
     console.log('Updating Profile...')
     console.log(profile)
+    done(null)
+  }
+
+  updatePassword({password, newPassword}, done) {
+    console.log('Updating Password...')
+    console.log(`${password} --> ${newPassword}`)
     done(null)
   }
 
