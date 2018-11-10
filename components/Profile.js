@@ -291,7 +291,7 @@ class Tab extends Component {
         <hr />
 
         <p>
-          <button className="w3-button w3-blue"> Update Password </button>
+          <button className="w3-button w3-blue w3-hover-blue w3-hover-opacity"> Update Password </button>
           <label style={{marginRight: '8px'}} />
           <button className="w3-button"> Cancel </button>
         </p>
