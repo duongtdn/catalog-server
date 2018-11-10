@@ -198,6 +198,7 @@ class Tab extends Component {
                   <input  className = "w3-input w3-border"
                           type = "text"
                           value = {email}
+                          disabled = {index === 0}
                           onChange = {this.getTyped('email', index)}
                   />
                   <label  className = "w3-text-blue" 
