@@ -44,14 +44,18 @@ class Tab extends Component {
       firstName: '',
       middleName: '',
       lastName: '',
+      displayName: '',
       gender: '',
       email:[],
       address: '',
       phone: [],
+      birthday: ''
     }
+    
+    this.originProfile ={ ...this.state };
 
-  this.updateProfile = this.updateProfile.bind(this)
-  this.resetState = this.resetState.bind(this)
+    this.updateProfile = this.updateProfile.bind(this)
+    this.resetState = this.resetState.bind(this)
 
   }
 
@@ -61,7 +65,28 @@ class Tab extends Component {
 
   _updateStateFromProps(props) {
     const _psw = {password: '', newPassword: '', retypePassword: ''}
-    this.setState({...props, ..._psw})
+    this._getOriginProfile(props).setState({...this.originProfile, ..._psw})
+  }
+
+  _getOriginProfile(props) {
+    for (let key in this.originProfile) {
+      if (props[key]) {
+        this.originProfile[key] = props[key]
+      }
+    }
+    return this
+  }
+
+  _updateStateToOriginProfile() {
+    for (let key in this.originProfile) {
+      this.originProfile[key] = this.state[key]
+    }
+    this.setState({}) // force render
+    return this
+  }
+
+  _isStateMatchOrigin() {
+    return Object.keys(this.originProfile).every( key => this.state[key] === this.originProfile[key])
   }
 
   render() {
@@ -144,9 +169,21 @@ class Tab extends Component {
         </p>
 
         <p>
+          <label>Birthday</label>
+          <input  className="w3-input w3-border"
+                  type="text"
+                  style={{width: '31%'}}
+                  placeholder="dd/mm/yyyy"
+                  value={this.state.birthday}
+                  onChange = {this.getTyped('birthday')}
+          />
+        </p>
+
+        <p>
           <label>Display Name</label>
           <input  className="w3-input w3-border"
                   type="text"
+                  style={{width: '31%'}}
                   value={this.state.displayName}
                   onChange = {this.getTyped('displayName')}
           />
@@ -210,9 +247,9 @@ class Tab extends Component {
         <hr />
 
         <p>
-          <button className="w3-button w3-blue" onClick={this.updateProfile}> Save </button>
+          <button className="w3-button w3-blue w3-hover-blue w3-hover-opacity" onClick={this.updateProfile} disabled={this._isStateMatchOrigin()} > Save </button>
           <label style={{marginRight: '8px'}} />
-          <button className="w3-button" onClick={this.resetState}> Reset </button>
+          <button className="w3-button" onClick={this.resetState} disabled={this._isStateMatchOrigin()} > Reset </button>
         </p>
             
       </div>
@@ -288,8 +325,9 @@ class Tab extends Component {
     const profile = {...this.state}
     profile.phone = this.state.phone.filter(phone => phone.length > 0)
     profile.email = this.state.email.filter(email => email.length > 0)
-    this.props.update && this.props.update(profile);
-    console.log(this.state)
+    this.props.update && this.props.update(profile, (err) => {
+      this._updateStateToOriginProfile()
+    });
   }
 
   resetState() {
@@ -337,9 +375,10 @@ class Profile extends Component {
     )
   }
 
-  update(profile) {
+  update(profile, done) {
     console.log('Updating Profile...')
     console.log(profile)
+    done(null)
   }
 
 }
