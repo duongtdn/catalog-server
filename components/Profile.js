@@ -114,11 +114,69 @@ class Message extends Component {
   }
 }
 
+class Modal extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    const display = this.props.display ? 'block' : 'none'
+    return (
+      <div className="w3-modal" style={{ display }}>
+        <div className="w3-modal-content" style={{background: 'none', textAlign: 'center', color: 'white'}} >
+           <div className="w3-container">
+              <i className="fa fa-circle-o-notch w3-xxlarge w3-spin" />
+              <h2> Updating </h2>
+            </div>
+        </div>
+      </div>
+    )
+  }
+}
+
+class Error extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const display = this.props.display? 'block' : 'none'
+    return (
+      <div className="w3-modal" style={{ display }}>
+        <div className="w3-modal-content w3-animate-top">
+
+          <header className="w3-container "> 
+            <span onClick={this.props.cancel} 
+                  className="w3-button w3-display-topright w3-red">&times;</span>
+            <h2 className="w3-text-red" style={{fontWeight: 'bold'}} > Error </h2>
+          </header>
+
+          <div className="w3-container" style={{marginBottom: '32px'}} >
+            <p className="w3-large w3-text-dark-grey" style={{fontWeight: 'bold'}}>
+              ({this.props.error.code}) {this.props.error.message}
+            </p>
+          </div>
+
+          <footer className="w3-bar w3-container w3-padding">     
+            <div className="w3-right" style={{marginBottom: '8px'}}>                          
+              <button className="w3-button w3-blue" onClick={this.props.cancel} > Close </button>
+            </div>
+          </footer>
+
+        </div>
+      </div>
+    )
+  }
+
+}
+
 class Tab extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
+    this.state = {}
+
+    this.originProfile = {
       firstName: '',
       middleName: '',
       lastName: '',
@@ -129,8 +187,6 @@ class Tab extends Component {
       phone: [],
       birthday: ''
     }
-    
-    this.originProfile ={ ...this.state };
 
     this.updateProfile = this.updateProfile.bind(this)
     this.resetState = this.resetState.bind(this)
@@ -147,7 +203,7 @@ class Tab extends Component {
 
   _updateStateFromProps(props) {
     const _psw = {password: '', newPassword: '', retypePassword: '', score: 0, messageBox1: '', messageBox2: '', messageBox3: ''}
-    this._getOriginProfile(props).setState({...this.originProfile, ..._psw})
+    this._getOriginProfile(props).setState({...this.state, ...this.originProfile, ..._psw})
   }
 
   _getOriginProfile(props) {
@@ -471,7 +527,11 @@ class Tab extends Component {
     profile.phone = this.state.phone.filter(phone => phone.length > 0)
     profile.email = this.state.email.filter(email => email.length > 0)
     this.props.updateProfile && this.props.updateProfile(profile, (err) => {
-      this._updateStateToOriginProfile()
+      if (err) {
+        console.log(err)
+      } else {
+        this._updateStateToOriginProfile()
+      }
     });
   }
 
@@ -495,7 +555,10 @@ class Profile extends Component {
     super(props)
 
     this.state = {
-      tab: 'profile'
+      tab: 'profile',
+      isUpdating: false,
+      isError: false,
+      error: {}
     }
 
     this.updateProfile = this.updateProfile.bind(this)
@@ -519,6 +582,11 @@ class Profile extends Component {
 
           />
         </div>
+        <Modal display = {this.state.isUpdating} />
+        <Error display = {this.state.isError} 
+               cancel = {() => this.setState({isError: false})}
+               error = {this.state.error}
+        />
       </div>
     )
   }
@@ -530,15 +598,20 @@ class Profile extends Component {
       service: 'sglearn',
       data: { profile },
       onSuccess: (data) => {
+        this.setState({ isUpdating: false })
         done(null, data)
         console.log({data})
       },
       onFailure: (err) => {
-        console.log(err)
+        const error = {
+          code: err.status,
+          message: JSON.parse(err.err).error
+        }
+        this.setState({ isUpdating: false, isError: true, error })
         done(err, null)
       }
     })
-    done(null)
+    this.setState({ isUpdating: true, isError: false, error: {} })
   }
 
   updatePassword({password, newPassword}, done) {
