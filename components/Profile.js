@@ -523,9 +523,16 @@ class Tab extends Component {
   }
 
   updateProfile() {
-    const profile = {...this.state}
+    const profile = {}
+    for (let key in this.originProfile) {
+      profile[key] = this.state[key]
+    }
     profile.phone = this.state.phone.filter(phone => phone.length > 0)
     profile.email = this.state.email.filter(email => email.length > 0)
+    if (profile.birthday.length === 0) {
+      delete profile.birthday
+    }
+    console.log(profile)
     this.props.updateProfile && this.props.updateProfile(profile, (err) => {
       if (err) {
         console.log(err)
@@ -567,35 +574,46 @@ class Profile extends Component {
 
   render() {
     const user = this.props.user
-    return (
-      <div className="sg-content">
-        <Header user = {user} />
-        <div className="w3-container w3-margin">
-          <SideBar active = {this.state.tab}
-                   onSelectTab = { (tab) => this.setState({ tab }) }
-          />
-          <Tab tab = {this.state.tab} 
-               onSelectTab = { (tab) => this.setState({ tab }) }
-               profile = {user.profile}
-               updateProfile = {this.updateProfile}
-               updatePassword = {this.updatePassword}
-
+    if (user) {
+      return (
+        <div className="sg-content">
+          <Header user = {user} />
+          <div className="w3-container w3-margin">
+            <SideBar active = {this.state.tab}
+                     onSelectTab = { (tab) => this.setState({ tab }) }
+            />
+            <Tab tab = {this.state.tab} 
+                 onSelectTab = { (tab) => this.setState({ tab }) }
+                 profile = {user.profile}
+                 updateProfile = {this.updateProfile}
+                 updatePassword = {this.updatePassword}
+  
+            />
+          </div>
+          <Modal display = {this.state.isUpdating} />
+          <Error display = {this.state.isError} 
+                 cancel = {() => this.setState({isError: false})}
+                 error = {this.state.error}
           />
         </div>
-        <Modal display = {this.state.isUpdating} />
-        <Error display = {this.state.isError} 
-               cancel = {() => this.setState({isError: false})}
-               error = {this.state.error}
-        />
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div className="sg-content">
+          <Header user = {user} />
+          <div className="w3-container w3-margin">
+            <h3> You need to login to use this page </h3>
+          </div>
+        </div>
+      )
+    }
   }
 
   updateProfile(profile, done) {
     console.log('Updating Profile...')
     authPost({
       endPoint: authApi.update_profile,
-      service: 'sglearn',
+      service: 'account',
       data: { profile },
       onSuccess: (data) => {
         this.setState({ isUpdating: false })
