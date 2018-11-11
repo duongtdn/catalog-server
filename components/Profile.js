@@ -7,6 +7,9 @@ import { bindUserProvider  } from '@stormgle/react-user'
 import { scorePassword } from '../lib/utils'
 import Header from './Header'
 
+import auth, { authPost } from '@stormgle/auth-client'
+import { authApi } from '../lib/env'
+
 class SideBar extends Component {
   constructor(props) {
     super(props)
@@ -522,7 +525,19 @@ class Profile extends Component {
 
   updateProfile(profile, done) {
     console.log('Updating Profile...')
-    console.log(profile)
+    authPost({
+      endPoint: authApi.update_profile,
+      service: 'sglearn',
+      data: { profile },
+      onSuccess: (data) => {
+        done(null, data)
+        console.log({data})
+      },
+      onFailure: (err) => {
+        console.log(err)
+        done(err, null)
+      }
+    })
     done(null)
   }
 
