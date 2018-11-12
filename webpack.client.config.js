@@ -6,7 +6,8 @@ module.exports = {
   entry: {
     catalog: ['./client/catalog.js'],
     course: ['./client/course.js'],
-    enrolled: ['./client/enrolled.js']
+    enrolled: ['./client/enrolled.js'],
+    profile: ['./client/profile.js']
   },
   module: {
     rules: [
