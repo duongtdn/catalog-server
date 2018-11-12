@@ -304,24 +304,26 @@ class Tab extends Component {
         </p>
 
         <p>
-          <label>Birthday</label>
-          <input  className="w3-input w3-border"
-                  type="text"
-                  style={{width: '31%'}}
-                  placeholder="dd/mm/yyyy"
-                  value={this.state.birthday}
-                  onChange = {this.getTyped('birthday')}
-          />
+          <span className="w3-mobile" style={{width: '31%', display: 'inline-block'}}>
+            <label>Birthday</label>
+            <input  className="w3-input w3-border"
+                    type="text"
+                    placeholder="dd/mm/yyyy"
+                    value={this.state.birthday}
+                    onChange = {this.getTyped('birthday')}
+            />
+          </span>
         </p>
 
         <p>
-          <label>Display Name</label>
-          <input  className="w3-input w3-border"
-                  type="text"
-                  style={{width: '31%'}}
-                  value={this.state.displayName}
-                  onChange = {this.getTyped('displayName')}
-          />
+          <span className="w3-mobile" style={{width: '31%', display: 'inline-block'}}>
+            <label>Display Name</label>
+            <input  className="w3-input w3-border"
+                    type="text"
+                    value={this.state.displayName}
+                    onChange = {this.getTyped('displayName')}
+            />
+          </span>
         </p>
 
         <p>
