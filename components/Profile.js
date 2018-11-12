@@ -185,7 +185,8 @@ class Tab extends Component {
       email:[],
       address: '',
       phone: [],
-      birthday: ''
+      birthday: '',
+      picture: ''
     }
 
     this.updateProfile = this.updateProfile.bind(this)
@@ -201,6 +202,10 @@ class Tab extends Component {
    this._updateStateFromProps(this.props.profile)
   }
 
+  componentWillReceiveProps(props) {
+    this._updateStateFromProps(props.profile)
+  }
+
   _updateStateFromProps(props) {
     const _psw = {password: '', newPassword: '', retypePassword: '', score: 0, messageBox1: '', messageBox2: '', messageBox3: ''}
     this._getOriginProfile(props).setState({...this.state, ...this.originProfile, ..._psw})
@@ -212,14 +217,6 @@ class Tab extends Component {
         this.originProfile[key] = props[key] === 'N/A' ? '' : props[key]
       }
     }
-    return this
-  }
-
-  _updateStateAndOriginProfile(data) {
-    for (let key in data) {
-      this.originProfile[key] = data[key]
-    }
-    this.setState({ ...this.originProfile }) // update state render
     return this
   }
 
@@ -541,8 +538,6 @@ class Tab extends Component {
     this.props.updateProfile && this.props.updateProfile(profile, (err,data) => {
       if (err) {
         console.log(err)
-      } else {
-        this._updateStateAndOriginProfile(data)
       }
     });
   }
@@ -615,7 +610,6 @@ class Profile extends Component {
   }
 
   updateProfile(profile, done) {
-    console.log('Updating Profile...')
     // validate profile
     const error = {code: 400, message: ''}
     if (!profile.firstName.length === 0) {
@@ -633,7 +627,9 @@ class Profile extends Component {
       data: { profile },
       onSuccess: (data) => {
         this.setState({ isUpdating: false })
+        this.props.user.update({ profile })
         done(null, profile)
+        console.log('Updated Profile')
       },
       onFailure: (err) => {
         const error = {
