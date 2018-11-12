@@ -645,8 +645,6 @@ class Profile extends Component {
   }
 
   updatePassword({password, newPassword}, done) {
-    console.log('Updating Password...')
-    console.log(`${password} --> ${newPassword}`)
     authPost({
       endPoint: authApi.update_password,
       service: 'account',
