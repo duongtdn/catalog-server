@@ -516,8 +516,7 @@ class Tab extends Component {
       return
     }
     this.props.updatePassword && this.props.updatePassword(
-        {password: this.state.password, newPassword: this.state.newPassword},
-        (err) => console.log('Update password successfull')
+        { password: this.state.password, newPassword: this.state.newPassword }
     )
   }
 
@@ -648,7 +647,25 @@ class Profile extends Component {
   updatePassword({password, newPassword}, done) {
     console.log('Updating Password...')
     console.log(`${password} --> ${newPassword}`)
-    done(null)
+    authPost({
+      endPoint: authApi.update_password,
+      service: 'account',
+      data: { username: this.props.user.username, password, login:{ password: newPassword } },
+      onSuccess: (data) => {
+        this.setState({ isUpdating: false })
+        done && done(null)
+        console.log('Updated Password')
+      },
+      onFailure: (err) => {
+        const error = {
+          code: err.status,
+          message: JSON.parse(err.err).error
+        }
+        this.setState({ isUpdating: false, isError: true, error })
+        done && done(err)
+      }
+    })
+    this.setState({ isUpdating: true, isError: false, error: {} })
   }
 
 }
