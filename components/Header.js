@@ -31,7 +31,7 @@ class Sidebar extends Component {
                       style={{paddingRight: '8px'}}
                       width={60} height={60}
                       alt="user picture" />
-              {this.props.user.profile.firstName || this.props.user.username}
+              {this.props.user.profile.displayName || this.props.user.username}
             </div>
           :
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px'}} >               
@@ -42,7 +42,7 @@ class Sidebar extends Component {
 
         {
           (this.props.user)? 
-            <a href="" className="w3-bar-item w3-button">My Profile</a> : null
+            <a href="/me/profile" className="w3-bar-item w3-button">My Profile</a> : null
         }
 
         {
@@ -134,11 +134,11 @@ class Header extends Component {
                       style={{paddingRight: '8px'}}
                       width={40} height={40}
                       alt="user picture" />
-                {this.props.user.profile.firstName || this.props.user.username} <i className="fa fa-caret-down" />
+                {this.props.user.profile.displayName || this.props.user.username} <i className="fa fa-caret-down" />
               </button>
               <div className="w3-dropdown-content w3-bar-block w3-card-4" style={{backgroundColor: '#f1f1f1'}}>
-                <a href=""className="w3-bar-item w3-button" > My Profile </a>
-                <a href="/me/enrolled"className="w3-bar-item w3-button" > My Study </a>
+                <a href="/me/profile" className="w3-bar-item w3-button" > My Profile </a>
+                <a href="/me/enrolled" className="w3-bar-item w3-button" > My Study </a>
                 <button className="w3-button w3-block w3-border-top w3-text-orange" onClick={this.logout}> Logout </button>
               </div>
             </div>
