@@ -209,17 +209,17 @@ class Tab extends Component {
   _getOriginProfile(props) {
     for (let key in this.originProfile) {
       if (props[key]) {
-        this.originProfile[key] = props[key]
+        this.originProfile[key] = props[key] === 'N/A' ? '' : props[key]
       }
     }
     return this
   }
 
-  _updateStateToOriginProfile() {
-    for (let key in this.originProfile) {
-      this.originProfile[key] = this.state[key]
+  _updateStateAndOriginProfile(data) {
+    for (let key in data) {
+      this.originProfile[key] = data[key]
     }
-    this.setState({}) // force render
+    this.setState({ ...this.originProfile }) // update state render
     return this
   }
 
@@ -530,14 +530,19 @@ class Tab extends Component {
     profile.phone = this.state.phone.filter(phone => phone.length > 0)
     profile.email = this.state.email.filter(email => email.length > 0)
     if (profile.birthday.length === 0) {
-      delete profile.birthday
+      profile.birthday = 'N/A'
     }
-    console.log(profile)
-    this.props.updateProfile && this.props.updateProfile(profile, (err) => {
+    if (profile.middleName.length === 0) {
+      profile.middleName = 'N/A'
+    }
+    if (profile.lastName.length === 0) {
+      profile.lastName = 'N/A'
+    }
+    this.props.updateProfile && this.props.updateProfile(profile, (err,data) => {
       if (err) {
         console.log(err)
       } else {
-        this._updateStateToOriginProfile()
+        this._updateStateAndOriginProfile(data)
       }
     });
   }
@@ -611,14 +616,24 @@ class Profile extends Component {
 
   updateProfile(profile, done) {
     console.log('Updating Profile...')
+    // validate profile
+    const error = {code: 400, message: ''}
+    if (!profile.firstName.length === 0) {
+      error.message = 'Please enter your First Name'
+      this.setState({ isUpdating: false, isError: true, error })
+      done (error, null)
+      return
+    }
+    if (profile.displayName.length === 0) {
+      profile.displayName = profile.firstName
+    }
     authPost({
       endPoint: authApi.update_profile,
       service: 'account',
       data: { profile },
       onSuccess: (data) => {
         this.setState({ isUpdating: false })
-        done(null, data)
-        console.log({data})
+        done(null, profile)
       },
       onFailure: (err) => {
         const error = {
