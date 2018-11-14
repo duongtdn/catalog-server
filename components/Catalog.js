@@ -93,7 +93,7 @@ class Catalog extends Component {
                     </div>
                     {/* render course action button */}
                     <div className="w3-bar-item w3-right">
-                      <a href={`/course/${course.courseId}`} className="w3-button w3-round w3-orange w3-card-4"> Click to enter </a>
+                      <a href={`/course/${course.courseId}`} className="w3-button w3-round w3-orange w3-card-4"> View Course </a>
                     </div>
                   </div>
                 </li>
