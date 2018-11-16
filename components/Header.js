@@ -26,12 +26,14 @@ class Sidebar extends Component {
         {
           (this.props.user)? 
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px', textAlign: 'left', paddingBottom: '16px'}} >
-              <img src={this.props.user.profile.picture}
+              <div className="w3-cell" >
+                <img  src={this.props.user.profile.picture}
                       className="w3-image w3-round" 
                       style={{paddingRight: '8px'}}
                       width={60} height={60}
                       alt="user picture" />
-              {this.props.user.profile.displayName || this.props.user.username}
+              </div>
+              <div className="w3-cell" > {this.props.user.profile.displayName || this.props.user.username} </div>
             </div>
           :
             <div className="w3-bar-item w3-border-bottom" style={{marginTop: '48px'}} >               
