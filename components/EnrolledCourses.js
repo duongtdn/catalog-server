@@ -139,10 +139,13 @@ class EnrolledCourses extends Component {
           {/* just a sentence */}
           {
             this.state.isLoading ?
-              <h3> 
-                {/* You have {this.state.enrolled.filter(e=> e.status === 'billing').length} new courses */}
-                Loading your enrollments...
-              </h3>
+              <div style={{textAlign: 'center', paddingTop: '32px'}} >
+                <h3 className="w3-text-blue"> 
+                  {/* You have {this.state.enrolled.filter(e=> e.status === 'billing').length} new courses */}
+                  <i className="fa fa-circle-o-notch w3-spin w3-xxlarge" /> <br />
+                  Loading your enrollments...
+                </h3>
+              </div>
               :
               this.state.enrolled && this.state.enrolled.length > 0 ?   
                 <ul className="w3-ul"> {
